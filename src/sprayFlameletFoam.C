@@ -36,6 +36,9 @@ Description
 #include "pimpleControl.H"
 #include "fvOptions.H"
 
+#include "table.H"
+#include "table.C"
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char *argv[])

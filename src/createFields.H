@@ -1,4 +1,10 @@
-Info<< "Reading field Z\n" << endl;
+Info<< "Reading flamelet table" << endl;
+ifstream flameletTableFile("flameletTable.csv");
+if (!flameletTableFile)
+    Info<< "ERROR: UNABLE TO FIND FLAMELETTABLE!!!\n" << endl;
+table flameletTable(flameletTableFile);
+
+Info<< "Reading field Z" << endl;
 volScalarField Z
 (
     IOobject
@@ -7,6 +13,19 @@ volScalarField Z
         runTime.timeName(),
         mesh,
         IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+volScalarField chi
+(
+    IOobject
+    (
+        "chi",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
     mesh
@@ -130,6 +149,6 @@ fields.add(thermo.he());
 volScalarField& T = thermo.T();
 const volScalarField& psi = thermo.psi();
 const label inertIndex(composition.species()[inertSpecie]);
-const double Yinert0 = Y[inertIndex][0];
+const scalar Yinert0(thermo.lookupOrDefault<scalar>("oxidizerYinert",0.0));
 Info<< "Inert index: " << inertIndex
     << "\tYinert0: " << Yinert0 << endl;

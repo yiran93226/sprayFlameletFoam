@@ -5,7 +5,6 @@ numElements = 0
 numSpecies = 0
 elements = []
 species = []
-
 with open('chem.inp') as f:
     for line in f:
         if 'ELEMENTS' in line:
@@ -48,13 +47,411 @@ with open('reactions','w+') as f:
         f.write(spec)
         f.write('\n')
 
-    f.write(')\n;\n\nreactions\n{\n')
-    f.write('\tun-named-reaction\n\t{\n\t\ttype\t\t\treversibleArrheniusReaction;\n')
-    f.write('\t\treaction\t\t\"O + H2 = H + OH\";\n')
-    f.write('\t\tA\t\t\t\t38.7;\n')
-    f.write('\t\tbeta\t\t\t2.7;\n')
-    f.write('\t\tTa\t\t\t\t3149.98;\n')
-    f.write('\t}\n}')
+    f.write(')\n;\n\n')
+    f.write('reactions\n{')
+
+EToTa = 4184.0/8314.0 # E:[cal/mol] R:[J/kmol K]
+orderDict = {0:1e3, 1:1.0, 2:1e-3, 3:1e-6, 4:1e-9}
+numReactions = 0
+numbers = '0123456789'
+def thirdBodyArrheniusParse(line,f,parser,il):
+    f.write('\t\treaction\t\t\"')
+    reactionOrder = 0
+    reactSpe = line[0].split(parser)
+    lhs = reactSpe[0]
+    rhs = reactSpe[1]
+    reactants = lhs.split('+')
+    products = rhs.split('+')
+    for j,ireactant in enumerate(reactants):
+        if ireactant[0] not in numbers:
+            reactionOrder+=1
+        else:
+            reactionOrder+=int(ireactant[0])
+        if j!= (len(reactants)-1):
+            f.write(ireactant+' ')
+        else:
+            pass
+        if j < (len(reactants)-2):
+            f.write('+ ')
+        else:
+            pass
+    f.write('=')
+    for j,iproduct in enumerate(products):
+        if j!= (len(products)-1):
+            f.write(' '+iproduct)
+        else:
+            pass
+        if j < (len(products)-2):
+            f.write(' +')
+        else:
+            pass
+    f.write('";\n')
+    f.write('\t\tA\t\t\t\t' + f'{orderDict[reactionOrder]*float(line[1])}' + ';\n')
+    f.write('\t\tbeta\t\t\t' + line[2] + ';\n')
+    f.write('\t\tTa\t\t\t\t' + f'{float(line[3])*EToTa}' + ';\n')
+    f.write('\t\tcoeffs\n' + f'{numSpecies}' + '\n(\n')
+    line2 = lines[il+1]
+    if '/' in line2:
+        line2 = line2.strip()
+        line2 = re.split(r'\s+', line2)
+        for iLine2 in range(len(line2)):
+            line2[iLine2] = line2[iLine2].strip('/')
+        speciesCoeffs = []
+        for ispecie in range(numSpecies):
+            speciesCoeffs.append('1')
+            for iLine2,modSpec in enumerate(line2):
+                if modSpec == species[ispecie]:
+                    speciesCoeffs[ispecie] = line2[iLine2+1]
+                    break
+                else:
+                    continue
+    else:
+        speciesCoeffs = []
+        for ispecie in range(numSpecies):
+            speciesCoeffs.append('1')
+    for ispecie in range(numSpecies):
+        f.write('(' + species[ispecie] + ' ' + speciesCoeffs[ispecie] + ')\n')
+    f.write(')\n;\n\t}')
+
+def troeReactionParse(line,f,parser,il):
+    f.write('\t\treaction\t\t\"')
+    reactionOrder = 0
+    reactSpe = line[0].split(parser)
+    lhs = reactSpe[0]
+    rhs = reactSpe[1]
+    lhs = lhs.strip('(+M)')
+    rhs = rhs.strip('(+M)')
+    reactants = lhs.split('+')
+    products = rhs.split('+')
+    for j,ireactant in enumerate(reactants):
+        if ireactant[0] not in numbers:
+            reactionOrder+=1
+        else:
+            reactionOrder+=int(ireactant[0])
+        f.write(ireactant+' ')
+        if j != (len(reactants)-1):
+            f.write('+ ')
+        else:
+            pass
+    f.write('=')
+    for j,iproduct in enumerate(products):
+        f.write(' '+iproduct)
+        if j != (len(products)-1):
+            f.write(' +')
+        else:
+            pass
+    lineLow = lines[il+1]
+    lineLow = lineLow.strip()
+    lineLow = re.split(r'\s+', lineLow)
+    for iLineLow in range(len(lineLow)):
+        lineLow[iLineLow] = lineLow[iLineLow].strip('/')
+    lineTroe = lines[il+2]
+    lineTroe = lineTroe.strip()
+    lineTroe = re.split(r'\s+', lineTroe)
+    for iLineTroe in range(len(lineTroe)):
+        lineTroe[iLineTroe] = lineTroe[iLineTroe].strip('/')
+    lineTroe.append('1e-30')
+    f.write('";\n')
+    f.write('\t\tk0\n\t\t{\n')
+    f.write('\t\t\tA\t\t\t' + f'{orderDict[reactionOrder+1]*float(lineLow[1])}' + ';\n')
+    f.write('\t\t\tbeta\t\t' + lineLow[2] + ';\n')
+    f.write('\t\t\tTa\t\t\t' + f'{float(lineLow[3])*EToTa}' + ';\n\t\t}\n')
+    f.write('\t\tkInf\n\t\t{\n')
+    f.write('\t\t\tA\t\t\t' + f'{orderDict[reactionOrder]*float(line[1])}' + ';\n')
+    f.write('\t\t\tbeta\t\t' + line[2] + ';\n')
+    f.write('\t\t\tTa\t\t\t' + f'{float(line[3])*EToTa}' + ';\n\t\t}\n')
+    
+    f.write('\t\tF\n\t\t{\n')
+    f.write('\t\t\talpha\t\t' + lineTroe[1] + ';\n')
+    f.write('\t\t\tTsss\t\t' + lineTroe[2] + ';\n')
+    f.write('\t\t\tTs\t\t\t' + lineTroe[3] + ';\n')
+    f.write('\t\t\tTss\t\t\t' + lineTroe[4] + ';\n\t\t}\n')
+
+    f.write('\t\tthirdBodyEfficiencies\n\t\t{\n')
+    f.write('\t\t\tcoeffs\n' + f'{numSpecies}' + '\n(\n')
+    line2 = lines[il+3]
+    if '/' in line2:
+        line2 = line2.strip()
+        line2 = re.split(r'\s+', line2)
+        for iLine2 in range(len(line2)):
+            line2[iLine2] = line2[iLine2].strip('/')
+        speciesCoeffs = []
+        for ispecie in range(numSpecies):
+            speciesCoeffs.append('1')
+            for iLine2,modSpec in enumerate(line2):
+                if modSpec == species[ispecie]:
+                    speciesCoeffs[ispecie] = line2[iLine2+1]
+                    break
+                else:
+                    continue
+    else:
+        speciesCoeffs = []
+        for ispecie in range(numSpecies):
+            speciesCoeffs.append('1')
+    for ispecie in range(numSpecies):
+        f.write('(' + species[ispecie] + ' ' + speciesCoeffs[ispecie] + ')\n')
+    f.write(')\n;\n\t\t}\n\t}')
+
+def sriReactionParse(line,f,parser,il):
+    f.write('\t\treaction\t\t\"')
+    reactionOrder = 0
+    reactSpe = line[0].split(parser)
+    lhs = reactSpe[0]
+    rhs = reactSpe[1]
+    lhs = lhs.strip('(+M)')
+    rhs = rhs.strip('(+M)')
+    reactants = lhs.split('+')
+    products = rhs.split('+')
+    for j,ireactant in enumerate(reactants):
+        if ireactant[0] not in numbers:
+            reactionOrder+=1
+        else:
+            reactionOrder+=int(ireactant[0])
+        f.write(ireactant+' ')
+        if j != (len(reactants)-1):
+            f.write('+ ')
+        else:
+            pass
+    f.write('=')
+    for j,iproduct in enumerate(products):
+        f.write(' '+iproduct)
+        if j != (len(products)-1):
+            f.write(' +')
+        else:
+            pass
+    lineLow = lines[il+1]
+    lineLow = lineLow.strip()
+    lineLow = re.split(r'\s+', lineLow)
+    for iLineLow in range(len(lineLow)):
+        lineLow[iLineLow] = lineLow[iLineLow].strip('/')
+    lineSRI = lines[il+2]
+    lineSRI = lineSRI.strip()
+    lineSRI = re.split(r'\s+', lineSRI)
+    for ilineSRI in range(len(lineSRI)):
+        lineSRI[ilineSRI] = lineSRI[ilineSRI].strip('/')
+    f.write('";\n')
+    f.write('\t\tk0\n\t\t{\n')
+    f.write('\t\t\tA\t\t\t' + f'{orderDict[reactionOrder+1]*float(lineLow[1])}' + ';\n')
+    f.write('\t\t\tbeta\t\t' + lineLow[2] + ';\n')
+    f.write('\t\t\tTa\t\t\t' + f'{float(lineLow[3])*EToTa}' + ';\n\t\t}\n')
+    f.write('\t\tkInf\n\t\t{\n')
+    f.write('\t\t\tA\t\t\t' + f'{orderDict[reactionOrder]*float(line[1])}' + ';\n')
+    f.write('\t\t\tbeta\t\t' + line[2] + ';\n')
+    f.write('\t\t\tTa\t\t\t' + f'{float(line[3])*EToTa}' + ';\n\t\t}\n')
+    
+    f.write('\t\tF\n\t\t{\n')
+    f.write('\t\t\ta\t\t\t' + lineSRI[1] + ';\n')
+    f.write('\t\t\tb\t\t\t' + lineSRI[2] + ';\n')
+    f.write('\t\t\tc\t\t\t' + lineSRI[3] + ';\n')
+    f.write('\t\t\td\t\t\t' + lineSRI[4] + ';\n')
+    f.write('\t\t\te\t\t\t' + lineSRI[5] + ';\n\t\t}\n')
+
+    f.write('\t\tthirdBodyEfficiencies\n\t\t{\n')
+    f.write('\t\t\tcoeffs\n' + f'{numSpecies}' + '\n(\n')
+    line2 = lines[il+3]
+    if '/' in line2:
+        line2 = line2.strip()
+        line2 = re.split(r'\s+', line2)
+        for iLine2 in range(len(line2)):
+            line2[iLine2] = line2[iLine2].strip('/')
+        speciesCoeffs = []
+        for ispecie in range(numSpecies):
+            speciesCoeffs.append('1')
+            for iLine2,modSpec in enumerate(line2):
+                if modSpec == species[ispecie]:
+                    speciesCoeffs[ispecie] = line2[iLine2+1]
+                    break
+                else:
+                    continue
+    else:
+        speciesCoeffs = []
+        for ispecie in range(numSpecies):
+            speciesCoeffs.append('1')
+    for ispecie in range(numSpecies):
+        f.write('(' + species[ispecie] + ' ' + speciesCoeffs[ispecie] + ')\n')
+    f.write(')\n;\n\t\t}\n\t}')
+
+def lindReactionParse(line,f,parser,il):
+    f.write('\t\treaction\t\t\"')
+    reactionOrder = 0
+    reactSpe = line[0].split(parser)
+    lhs = reactSpe[0]
+    rhs = reactSpe[1]
+    lhs = lhs.strip('(+M)')
+    rhs = rhs.strip('(+M)')
+    reactants = lhs.split('+')
+    products = rhs.split('+')
+    for j,ireactant in enumerate(reactants):
+        if ireactant[0] not in numbers:
+            reactionOrder+=1
+        else:
+            reactionOrder+=int(ireactant[0])
+        f.write(ireactant+' ')
+        if j != (len(reactants)-1):
+            f.write('+ ')
+        else:
+            pass
+    f.write('=')
+    for j,iproduct in enumerate(products):
+        f.write(' '+iproduct)
+        if j != (len(products)-1):
+            f.write(' +')
+        else:
+            pass
+    lineLow = lines[il+1]
+    lineLow = lineLow.strip()
+    lineLow = re.split(r'\s+', lineLow)
+    for iLineLow in range(len(lineLow)):
+        lineLow[iLineLow] = lineLow[iLineLow].strip('/')
+    f.write('";\n')
+    f.write('\t\tk0\n\t\t{\n')
+    f.write('\t\t\tA\t\t\t' + f'{orderDict[reactionOrder+1]*float(lineLow[1])}' + ';\n')
+    f.write('\t\t\tbeta\t\t' + lineLow[2] + ';\n')
+    f.write('\t\t\tTa\t\t\t' + f'{float(lineLow[3])*EToTa}' + ';\n\t\t}\n')
+    f.write('\t\tkInf\n\t\t{\n')
+    f.write('\t\t\tA\t\t\t' + f'{orderDict[reactionOrder]*float(line[1])}' + ';\n')
+    f.write('\t\t\tbeta\t\t' + line[2] + ';\n')
+    f.write('\t\t\tTa\t\t\t' + f'{float(line[3])*EToTa}' + ';\n\t\t}\n')
+    
+    f.write('\t\tF\n\t\t{\n' + '\t\t}\n')
+    f.write('\t\tthirdBodyEfficiencies\n\t\t{\n')
+    f.write('\t\t\tcoeffs\n' + f'{numSpecies}' + '\n(\n')
+    line2 = lines[il+2]
+    if '/' in line2:
+        line2 = line2.strip()
+        line2 = re.split(r'\s+', line2)
+        for iLine2 in range(len(line2)):
+            line2[iLine2] = line2[iLine2].strip('/')
+        speciesCoeffs = []
+        for ispecie in range(numSpecies):
+            speciesCoeffs.append('1')
+            for iLine2,modSpec in enumerate(line2):
+                if modSpec == species[ispecie]:
+                    speciesCoeffs[ispecie] = line2[iLine2+1]
+                    break
+                else:
+                    continue
+    else:
+        speciesCoeffs = []
+        for ispecie in range(numSpecies):
+            speciesCoeffs.append('1')
+    for ispecie in range(numSpecies):
+        f.write('(' + species[ispecie] + ' ' + speciesCoeffs[ispecie] + ')\n')
+    f.write(')\n;\n\t\t}\n\t}')
+
+def simpleReactionParse(line,f,parser):
+    f.write('\t\treaction\t\t\"')
+    reactionOrder = 0
+    reactSpe = line[0].split(parser)
+    lhs = reactSpe[0]
+    rhs = reactSpe[1]
+    reactants = lhs.split('+')
+    products = rhs.split('+')
+    for j,ireactant in enumerate(reactants):
+        f.write(ireactant+' ')
+        if ireactant[0] not in numbers:
+            reactionOrder+=1
+        else:
+            reactionOrder+=int(ireactant[0])
+        if j!= (len(reactants)-1):
+            f.write('+ ')
+        else:
+            continue
+    f.write('=')
+    for j,iproduct in enumerate(products):
+        f.write(' '+iproduct)
+        if j!= (len(products)-1):
+            f.write(' +')
+        else:
+            continue
+    f.write('";\n')
+    f.write('\t\tA\t\t\t\t' + f'{orderDict[reactionOrder]*float(line[1])}' + ';\n')
+    f.write('\t\tbeta\t\t\t' + line[2] + ';\n')
+    f.write('\t\tTa\t\t\t\t' + f'{float(line[3])*EToTa}' + ';\n\t}')
+
+with open('chem.inp') as fin, open ('reactions','a+') as f:
+    for line in fin:
+        if 'REACTIONS' in line:
+            break
+    lines = fin.readlines()
+    for il,line in enumerate(lines):
+        line = line.strip()
+        if 'END' in line:
+            break
+        else:
+            if line[0] == '!' or 'DUPLICATE' in line:
+                continue
+            elif '+M=>' in line:
+                # irreversiblethirdBodyArrheniusReaction
+                line = re.split(r'\s+', line)
+                f.write('\n\tun-named-reaction-' + f'{numReactions}')
+                numReactions += 1
+                f.write('\n\t{\n\t\ttype\t\t\tirreversiblethirdBodyArrheniusReaction;\n')
+                thirdBodyArrheniusParse(line,f,'=>',il)
+            elif '+M=' in line or '+M<=>' in line:
+                # reversiblethirdBodyArrheniusReaction
+                line = re.split(r'\s+', line)
+                f.write('\n\tun-named-reaction-' + f'{numReactions}')
+                numReactions += 1
+                f.write('\n\t{\n\t\ttype\t\t\treversiblethirdBodyArrheniusReaction;\n')
+                if '<=>' in line:
+                    thirdBodyArrheniusParse(line,f,'<=>',il)
+                else:
+                    thirdBodyArrheniusParse(line,f,'=',il)
+            elif '(+M)' in line:
+                if 'TROE' in lines[il+2]:
+                    # reversibleArrheniusTroeFallOffReaction
+                    line = re.split(r'\s+', line)
+                    f.write('\n\tun-named-reaction-' + f'{numReactions}')
+                    numReactions += 1
+                    f.write('\n\t{\n\t\ttype\t\t\treversibleArrheniusTroeFallOffReaction;\n')
+                    if '<=>' in line:
+                        troeReactionParse(line,f,'<=>',il)
+                    else:
+                        troeReactionParse(line,f,'=',il)
+                elif 'SRI' in lines[il+2]:
+                    # reversibleArrheniusSRIFallOffReaction
+                    line = re.split(r'\s+', line)
+                    f.write('\n\tun-named-reaction-' + f'{numReactions}')
+                    numReactions += 1
+                    f.write('\n\t{\n\t\ttype\t\t\treversibleArrheniusSRIFallOffReaction;\n')
+                    if '<=>' in line:
+                        sriReactionParse(line,f,'<=>',il)
+                    else:
+                        sriReactionParse(line,f,'=',il)
+                else:
+                    # reversibleArrheniusLindemannFallOffReaction
+                    line = re.split(r'\s+', line)
+                    f.write('\n\tun-named-reaction-' + f'{numReactions}')
+                    numReactions += 1
+                    f.write('\n\t{\n\t\ttype\t\t\treversibleArrheniusLindemannFallOffReaction;\n')
+                    if '<=>' in line:
+                        lindReactionParse(line,f,'<=>',il)
+                    else:
+                        lindReactionParse(line,f,'=',il)
+            elif '/' in line:
+                continue
+            elif '<=>' in line:
+                line = re.split(r'\s+', line)
+                f.write('\n\tun-named-reaction-' + f'{numReactions}')
+                numReactions += 1
+                f.write('\n\t{\n\t\ttype\t\t\treversibleArrheniusReaction;\n')
+                simpleReactionParse(line,f,'<=>')
+            elif '=>' in line:
+                line = re.split(r'\s+', line)
+                f.write('\n\tun-named-reaction-' + f'{numReactions}')
+                numReactions += 1
+                f.write('\n\t{\n\t\ttype\t\t\tirreversibleArrheniusReaction;\n')
+                simpleReactionParse(line,f,'=>')
+            else:
+                line = re.split(r'\s+', line)
+                f.write('\n\tun-named-reaction-' + f'{numReactions}')
+                numReactions += 1
+                f.write('\n\t{\n\t\ttype\t\t\treversibleArrheniusReaction;\n')
+                simpleReactionParse(line,f,'=')
+    f.write('\n}')
+
+
 
 
 # Thermodynamics

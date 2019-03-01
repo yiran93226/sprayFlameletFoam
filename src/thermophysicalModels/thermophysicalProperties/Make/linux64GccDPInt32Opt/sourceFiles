@@ -18,6 +18,7 @@ liquidProperties/C7H16/C7H16.C \
 liquidProperties/C12H26/C12H26.C \
 liquidProperties/NC12H26/NC12H26.C \
 liquidProperties/C10H22/C10H22.C \
+liquidProperties/DECALIN/DECALIN.C \
 liquidProperties/C8H18/C8H18.C \
 liquidProperties/IC8H18/IC8H18.C \
 liquidProperties/C4H10O/C4H10O.C \

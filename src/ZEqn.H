@@ -33,4 +33,8 @@ tmp<fv::convectionScheme<scalar>> mvConvection
     Z = scalar(1) - inY/Yinert0;
     Info<< "Z min/max : " << min(Z).value() << ", "
         << max(Z).value() << endl;
+
+    chi = 2*turbulence->muEff()/rho*mag(fvc::grad(Z))*mag(fvc::grad(Z));
+    Info<< "chi min/max : " << min(chi).value() << ", "
+        << max(chi).value() << endl;
 }
