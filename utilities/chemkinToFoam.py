@@ -455,7 +455,7 @@ with open('chem.inp') as fin, open ('reactions','a+') as f:
 
 
 # Thermodynamics
-weightDict = {'C ':12.0, 'C':12.0, 'H':1.0, 'H ':1.0, 'N':14.0, 'N ':14.0, 'O':16.0, 'O ':16.0, 'HE':4.0, 'AR':40.0}
+weightDict = {'C ':12.011, 'C':12.011, 'H':1.0079, 'H ':1.0079, 'N':14.00674, 'N ':14.00674, 'O':15.999, 'O ':15.999, 'HE':4.0026, 'AR':39.948}
 with open('therm.dat') as f, open('thermodynamics','w+') as w:
     while True:
         specie = ''
