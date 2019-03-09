@@ -5,32 +5,30 @@ tmp<fv::convectionScheme<scalar>> mvConvection
        mesh,
        fields,
        phi,
-       mesh.divScheme("div(phi,Yi_h)")
+       mesh.divScheme("div(phi,Z)")
     )
 );
 
 {
-    volScalarField& inY = Y[inertIndex];
-    fvScalarMatrix YEqn
+    fvScalarMatrix ZEqn
     (
-        fvm::ddt(rho, inY) + mvConvection->fvmDiv(phi, inY)
-      - fvm::laplacian(turbulence->muEff(), inY)
+        fvm::ddt(rho, Z) + mvConvection->fvmDiv(phi, Z)
+      - fvm::laplacian(turbulence->muEff(), Z)
      ==
-        fvOptions(rho, inY)
-      + parcels.SYi(inertIndex, inY)
+        fvOptions(rho, Z)
+      + parcels.Srho()
     );
 
-    YEqn.relax();
+    ZEqn.relax();
     
-    fvOptions.constrain(YEqn);
+    fvOptions.constrain(ZEqn);
 
-    YEqn.solve(mesh.solver("Yi"));
+    ZEqn.solve(mesh.solver("Z"));
 
-    fvOptions.correct(inY);
+    fvOptions.correct(Z);
 
-    inY.max(0.0);
+    Z.max(0.0);
 
-    Z = scalar(1) - inY/Yinert0;
     Info<< "Z min/max : " << min(Z).value() << ", "
         << max(Z).value() << endl;
 

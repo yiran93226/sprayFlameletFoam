@@ -43,14 +43,14 @@ SLGThermo slgThermo(mesh, thermo);
 basicSpecieMixture& composition = thermo.composition();
 PtrList<volScalarField>& Y = composition.Y();
 
-const word inertSpecie(thermo.lookup("inertSpecie"));
-if (!composition.species().found(inertSpecie))
-{
- FatalIOErrorIn(args.executable().c_str(), thermo)
-     << "Inert specie " << inertSpecie << " not found in available species "
-     << composition.species()
-     << exit(FatalIOError);
-}
+// const word inertSpecie(thermo.lookup("inertSpecie"));
+// if (!composition.species().found(inertSpecie))
+// {
+//  FatalIOErrorIn(args.executable().c_str(), thermo)
+//      << "Inert specie " << inertSpecie << " not found in available species "
+//      << composition.species()
+//      << exit(FatalIOError);
+// }
 
 volScalarField& p = thermo.p();
 
@@ -148,7 +148,7 @@ fields.add(thermo.he());
 
 volScalarField& T = thermo.T();
 const volScalarField& psi = thermo.psi();
-const label inertIndex(composition.species()[inertSpecie]);
-const scalar Yinert0(thermo.lookupOrDefault<scalar>("oxidizerYinert",0.0));
-Info<< "Inert index: " << inertIndex
-    << "\tYinert0: " << Yinert0 << endl;
+// const label inertIndex(composition.species()[inertSpecie]);
+// const scalar Yinert0(thermo.lookupOrDefault<scalar>("oxidizerYinert",0.0));
+// Info<< "Inert index: " << inertIndex
+//     << "\tYinert0: " << Yinert0 << endl;

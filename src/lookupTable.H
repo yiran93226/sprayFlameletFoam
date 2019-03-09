@@ -6,9 +6,7 @@
         T[i] = flameletTable.lookupT();
         forAll(Y, j)
         {
-            if(j!=inertIndex)
-                Y[j][i] = flameletTable.lookupY(j);
-            else continue;
+            Y[j][i] = flameletTable.lookupY(j);
         }
     }
     he = thermo.he(p,T);
