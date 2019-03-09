@@ -13,6 +13,6 @@
     thermo.correct();
     Info<< "T gas min/max : " << min(T).value() << ", "
         << max(T).value() << endl;
-    Info<< "Y O2 min/max : " << min(Y[2]).value() << ", "
-        << max(Y[2]).value() << endl;
+    Info<< "Y O2 min/max : " << min(Y[oxidizerIndex]).value() << ", "
+        << max(Y[oxidizerIndex]).value() << endl;
 }
