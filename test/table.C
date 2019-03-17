@@ -1,6 +1,5 @@
 #include "table.H"
 
-
 table::table
 (
     std::ifstream& tableFile
@@ -12,17 +11,19 @@ table::table
 }
 
 
+
 void table::find(double Z)
 {
-    if (Z > minZ_ && Z < maxZ_)
+    if ( (Z > minZ_) && (Z < maxZ_) )
     {
         interZ_ = Z;
         for (size_t i=0; i<lenZ_; i++)
         {
-            if (Z_[i] > Z)
+            if (Z_[i] > interZ_)
             {
                 positionL_ = i-1;
                 positionH_ = i;
+                break;
             }
         }
         weightL_ = (Z_[positionH_] - interZ_) / (Z_[positionH_] - Z_[positionL_]);
@@ -53,7 +54,6 @@ void table::read()
     std::string line, str;
     std::getline(tableFile_, firstLine_); // The first line
     nColumn_ = std::count(firstLine_.begin(), firstLine_.end(), ',') + 1;
-    std::cout << "#Number of columns:\t" << nColumn_ << std::endl;
     Y_.resize(nColumn_-3);
     while(std::getline(tableFile_,line))
     {
@@ -75,7 +75,5 @@ void table::read()
     lenZ_ = Z_.size();
     maxZ_ = Z_[lenZ_-1];
     minZ_ = Z_[0];
-    std::cout << "#Number of species:\t" << Y_.size() << std::endl;
-    std::cout << "#Length of Z:\t" << Z_.size() << std::endl;
-    std::cout << "#Length of T:\t" << T_.size() << std::endl;
+    std::cout << "#FLAMELETTABLE Constructed" << std::endl;
 }

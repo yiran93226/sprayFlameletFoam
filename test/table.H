@@ -46,6 +46,11 @@ public:
         return Y_[i][positionH_] * weightH_ + Y_[i][positionL_] * weightL_;
     }
 
+    double lookupYc() const
+    {
+        return interYc_;
+    }
+
     void find(double Z);
 
 
