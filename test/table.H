@@ -14,10 +14,40 @@ public:
     // Constructor
     table(std::ifstream& tableFile);
 
-    // Member functions
-    double lookupT() const;
+    // Getters
+    std::vector<double> getZ() const
+    {
+        return Z_;
+    }
 
-    void find(double Z, double chi);
+    std::vector<double> getYc() const
+    {
+        return Yc_;
+    }
+
+    double getNsp() const
+    {
+        return Y_.size();
+    }
+
+    std::string getFirstLine() const
+    {
+        return firstLine_;
+    }
+
+    // Member functions
+    double lookupT() const
+    {
+        return T_[positionH_] * weightH_ + T_[positionL_] * weightL_;
+    }
+
+    double lookupY(size_t i) const
+    {
+        return Y_[i][positionH_] * weightH_ + Y_[i][positionL_] * weightL_;
+    }
+
+    void find(double Z);
+
 
 private:
     // Private member functions
@@ -25,15 +55,22 @@ private:
 
     // Private member data
     std::vector<double> Z_;
-    std::vector<double> chi_;
+    std::vector<double> Yc_;
     std::vector<double> T_;
     std::vector<std::vector<double> > Y_;
 
-    double ZKey_;
-    double chiKey_;
-    std::vector<int> positions_;
+    double maxZ_;
+    double minZ_;
+    double interZ_;
+    double interYc_;
+    double weightL_;
+    double weightH_;
+    size_t positionL_;
+    size_t positionH_;
 
-    int nColumn_;
+    size_t lenZ_;
+    size_t nColumn_;
+    std::string firstLine_;
     std::ifstream& tableFile_;
 };
 
