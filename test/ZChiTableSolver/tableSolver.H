@@ -13,7 +13,7 @@ public:
     // Getters
 
     // Member functions
-    void find(double Z, double Yc);
+    void find(double Z, double chi);
 
     double lookupT() const
     {
@@ -27,6 +27,10 @@ public:
                 tables_[positionL_]->lookupY(i) * weightL_;
     }
 
+    bool extrapol() const
+    {
+        return positionL_ == positionH_;
+    }
 
 private:
     // Private member functions

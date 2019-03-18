@@ -21,19 +21,22 @@ void tableSolver::collectTables()
 
 void tableSolver::find(double Z, double Yc)
 {
-    std::vector<double> Ycs(tableNum_);
+    std::vector<double> Ycs(tableNum_-1);
     std::map<double, size_t> YcMap;
     for (size_t i=0; i<tableNum_; i++)
     {
         tables_[i]->find(Z);
-        Ycs[i] = tables_[i]->lookupYc();
-        YcMap.insert({Ycs[i], i});
+        if (i!=tableNum_-1)
+        {
+            Ycs[i] = tables_[i]->lookupYc();
+            YcMap.insert({Ycs[i], i});
+        }
     }
     std::sort(Ycs.begin(), Ycs.end());
     double YcH, YcL;
-    if ( (Yc > Ycs[1]) && (Yc < Ycs[tableNum_-1]) )
+    if ( (Yc > Ycs[0]) && (Yc < Ycs[tableNum_-2]) )
     {
-        for (size_t i=1; i<tableNum_; i++)
+        for (size_t i=0; i<tableNum_; i++)
         {
             if (Ycs[i] > Yc)
             {
@@ -44,13 +47,15 @@ void tableSolver::find(double Z, double Yc)
         }
         weightL_ = (YcH - Yc) / (YcH - YcL);
         weightH_ = (Yc - YcL) / (YcH - YcL);
+        positionL_ = YcMap[YcL];
+        positionH_ = YcMap[YcH];
     }
-    else if (Yc <= Ycs[1])
+    else if (Yc <= Ycs[0])
     {
-        YcH = Ycs[0];
-        YcL = Ycs[0];
         weightL_ = 0.5;
         weightH_ = 0.5;
+        positionL_ = tableNum_-1;
+        positionH_ = tableNum_-1;
     }
     else
     {
@@ -58,7 +63,7 @@ void tableSolver::find(double Z, double Yc)
         YcL = Ycs[tableNum_-1];
         weightL_ = 0.5;
         weightH_ = 0.5;
+        positionL_ = YcMap[YcL];
+        positionH_ = YcMap[YcH];
     }
-    positionL_ = YcMap[YcL];
-    positionH_ = YcMap[YcH];
 }
