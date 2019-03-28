@@ -43,7 +43,9 @@ SLGThermo slgThermo(mesh, thermo);
 basicSpecieMixture& composition = thermo.composition();
 PtrList<volScalarField>& Y = composition.Y();
 
-const word oxidizerSpecie(thermo.lookup("oxidizerSpecie"));
+const word defaultOxid("O2");
+const word oxidizerSpecie(thermo.lookupOrDefault("oxidizerSpecie",defaultOxid));
+/*
 if (!composition.species().found(oxidizerSpecie))
 {
  FatalIOErrorIn(args.executable().c_str(), thermo)
@@ -51,6 +53,7 @@ if (!composition.species().found(oxidizerSpecie))
      << composition.species()
      << exit(FatalIOError);
 }
+*/
 
 volScalarField& p = thermo.p();
 
