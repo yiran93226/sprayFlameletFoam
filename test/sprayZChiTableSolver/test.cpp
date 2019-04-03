@@ -9,12 +9,12 @@ int main()
     size_t nsp = 231;
     std::vector<double> Z;
     std::vector<double> chi;
-    for (size_t i=0; i<1200; i++)
+    for (size_t i=1; i<1000; i++)
     {
         for (size_t j=0; j<1001; j++)
         {
             Z.push_back(double(j/1000.0));
-            chi.push_back(double(i));
+            chi.push_back(double(i/10.0));
         }
     }
     std::vector<double> T(Z.size());

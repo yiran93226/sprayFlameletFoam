@@ -1,4 +1,5 @@
 #include "tableSolver.H"
+#include <ctime>
 using namespace std;
 
 int main()
@@ -24,6 +25,8 @@ int main()
     {
         Y[i].resize(Z.size());
     }
+    clock_t startTime, endTime;
+    startTime = clock();
     for(size_t i=0; i<Z.size(); i++)
     {
         ts.find(Z[i], chi[i]);
@@ -34,7 +37,9 @@ int main()
             Y[j][i] = ts.lookupY(j);
         }
     }
-
+    endTime = clock();
+    std::cout << "Run time:\t" << double(endTime - startTime) / CLOCKS_PER_SEC
+             << " s" << std::endl;
     for(size_t i=0; i<Z.size(); i++)
     {
         // if (ext[i] == false)

@@ -1,8 +1,6 @@
 Info<< "Reading flamelet table" << endl;
-ifstream flameletTableFile("flameletTable.csv");
-if (!flameletTableFile)
-    Info<< "ERROR: UNABLE TO FIND FLAMELETTABLE!!!\n" << endl;
-table flameletTable(flameletTableFile);
+
+tableSolver flameletTable;
 
 Info<< "Reading field Z" << endl;
 volScalarField Z

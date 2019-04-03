@@ -36,8 +36,8 @@ Description
 #include "pimpleControl.H"
 #include "fvOptions.H"
 
-#include "table.H"
 #include "table.C"
+#include "tableSolver.C"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
