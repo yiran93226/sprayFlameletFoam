@@ -16,6 +16,20 @@ volScalarField Z
     mesh
 );
 
+Info<< "Reading field varZ" << endl;
+volScalarField varZ
+(
+    IOobject
+    (
+        "varZ",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
 volScalarField chi
 (
     IOobject
@@ -150,4 +164,3 @@ fields.add(thermo.he());
 volScalarField& T = thermo.T();
 const volScalarField& psi = thermo.psi();
 const label oxidizerIndex(composition.species()[oxidizerSpecie]);
-// const scalar Yinert0(thermo.lookupOrDefault<scalar>("oxidizerYinert",0.0));
