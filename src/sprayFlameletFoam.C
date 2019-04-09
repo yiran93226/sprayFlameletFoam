@@ -38,6 +38,7 @@ Description
 
 #include "table.C"
 #include "tableSolver.C"
+#include "selector.C"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

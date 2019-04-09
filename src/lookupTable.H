@@ -2,7 +2,8 @@
     volScalarField& he = thermo.he();
     forAll(Z.internalField(), i)
     {
-        flameletTable.find(Z[i],chi[i]);
+        double Zeta = std::sqrt(varZ[i]/std::max(Z[i]*(1-Z[i]), 1e-10));
+        flameletTable.find(Z[i], Zeta, chi[i]);
         T[i] = flameletTable.lookupT();
         forAll(Y, j)
         {

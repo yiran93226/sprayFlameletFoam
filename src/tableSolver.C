@@ -1,16 +1,16 @@
 #include "tableSolver.H"
 
-tableSolver::tableSolver()
+tableSolver::tableSolver(size_t zetaIndex)
 {
-    collectTables();
+    collectTables(zetaIndex);
 }
 
-void tableSolver::collectTables()
+void tableSolver::collectTables(size_t zetaIndex)
 {
     size_t n=0;
     while(true)
     {
-        std::ifstream flameletTableFile("tablesChi/flameletTable_"+std::to_string(n)+".csv");
+        std::ifstream flameletTableFile("tablesChi/Zeta_"+std::to_string(zetaIndex)+"/flameletTable_"+std::to_string(n)+".csv");
         if (!flameletTableFile) break;
         table* tTable = new table(flameletTableFile);
         tables_.push_back(tTable);

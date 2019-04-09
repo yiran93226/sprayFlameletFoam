@@ -75,5 +75,4 @@ void table::read()
     lenZ_ = Z_.size();
     maxZ_ = Z_[lenZ_-1];
     minZ_ = Z_[0];
-    std::cout << "#FLAMELETTABLE Constructed" << std::endl;
 }

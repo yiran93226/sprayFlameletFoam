@@ -8,6 +8,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptions.H \
 table.C \
 tableSolver.C \
+selector.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/postProcess.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCaseLists.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/createTime.H \
@@ -74,6 +75,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptionList.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOdictionary.H \
 table.H \
 tableSolver.H \
+selector.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addRegionOption.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addFunctionObjectOptions.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCase.H \
@@ -1040,6 +1042,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptions.H :
 table.C :
 tableSolver.C :
+selector.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/postProcess.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCaseLists.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/createTime.H :
@@ -1106,6 +1109,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptionList.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOdictionary.H :
 table.H :
 tableSolver.H :
+selector.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addRegionOption.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addFunctionObjectOptions.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCase.H :

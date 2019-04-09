@@ -8,7 +8,7 @@ class tableSolver
 {
 public:
     // Constructor
-    tableSolver();
+    tableSolver(size_t zetaIndex);
 
     // Getters
 
@@ -34,7 +34,7 @@ public:
 
 private:
     // Private member functions
-    void collectTables();
+    void collectTables(size_t zetaIndex);
  
     // Private member data
     double weightL_;

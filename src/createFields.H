@@ -1,7 +1,3 @@
-Info<< "Reading flamelet table" << endl;
-
-tableSolver flameletTable;
-
 Info<< "Reading field Z" << endl;
 volScalarField Z
 (
@@ -133,6 +129,28 @@ autoPtr<compressible::turbulenceModel> turbulence
         thermo
     )
 );
+
+const word modelType
+(
+    IOdictionary
+    (
+        IOobject
+        (
+            "turbulenceProperties",
+            U.time().constant(),
+            U.db(),
+            IOobject::MUST_READ_IF_MODIFIED,
+            IOobject::NO_WRITE,
+            false
+        )
+    ).lookup("simulationType")
+);
+
+
+Info<< "Reading flamelet tables" << endl;
+
+selector flameletTable(modelType);
+std::cout << modelType << std::endl;
 
 Info<< "Creating field dpdt\n" << endl;
 volScalarField dpdt
