@@ -1,0 +1,6 @@
+#!/bin/sh
+cd ./src/thermophysicalModels/thermophysicalProperties
+wmake
+sudo cp $FOAM_USER_LIBBIN/libthermophysicalProperties.so $FOAM_LIBBIN/
+cd ../../
+wmake
