@@ -1,8 +1,6 @@
 # sprayFlameletFoam
 
 ## Installation
-  
-  `mkdir ~/OpenFOAM/flamletFoam/`
 
   `mkdir ~/OpenFOAM/sprayFlameletFoam/`
 
