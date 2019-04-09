@@ -146,11 +146,8 @@ const word modelType
     ).lookup("simulationType")
 );
 
-
 Info<< "Reading flamelet tables" << endl;
-
 selector flameletTable(modelType);
-std::cout << modelType << std::endl;
 
 Info<< "Creating field dpdt\n" << endl;
 volScalarField dpdt
