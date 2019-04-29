@@ -62,13 +62,25 @@ void table::read()
         while(std::getline(buffer, str, ',')) // Comma separated values
         {
             if(n > 2)
+            {
+                std::cout << str << std::endl;
                 Y_[n-3].push_back(std::stod(str));
+            }
             else if(n == 0)
+            {
+                std::cout << str << std::endl;
                 Z_.push_back(std::stod(str));
+            }
             else if(n == 1)
+            {
+                std::cout << str << std::endl;
                 chi_.push_back(std::stod(str));
+            }
             else
+            {
+                std::cout << str << std::endl;
                 T_.push_back(std::stod(str));
+            }
             n++;
         }
     }

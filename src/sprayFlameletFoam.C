@@ -87,8 +87,15 @@ int main(int argc, char *argv[])
             {
                 #include "pEqn.H"
             }
+
+            if (pimple.turbCorr())
+            {
+                turbulence->correct();
+            }
         }
         runTime.write();
+        
+        rho = thermo.rho();
     }
 
     Info<< nl << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"

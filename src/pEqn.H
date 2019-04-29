@@ -3,8 +3,8 @@ rho = max(rho, rhoMin);
 rho = min(rho, rhoMax);
 rho.relax();
 
-// Part 1
-thermo.rho() = thermo.rho() - psi*p;
+// // Part 1
+// thermo.rho() = thermo.rho() - psi*p;
 
 volScalarField rAU(1.0/UEqn.A());
 surfaceScalarField rhorAUf("rhorAUf", fvc::interpolate(rho*rAU));
@@ -89,8 +89,8 @@ else
     }
 }
 
-// Part 2
-thermo.rho() = thermo.rho() + psi*p;
+// // Part 2
+// thermo.rho() = thermo.rho() + psi*p;
 
 #include "rhoEqn.H"
 #include "compressibleContinuityErrs.H"

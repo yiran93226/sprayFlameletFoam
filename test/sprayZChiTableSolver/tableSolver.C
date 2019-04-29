@@ -10,7 +10,7 @@ void tableSolver::collectTables()
     size_t n=0;
     while(true)
     {
-        std::ifstream flameletTableFile("tablesChi/sprayTable"+std::to_string(n)+".csv");
+        std::ifstream flameletTableFile("tablesChi/flameletTable_"+std::to_string(n)+".csv");
         if (!flameletTableFile) break;
         table* tTable = new table(flameletTableFile);
         tables_.push_back(tTable);
