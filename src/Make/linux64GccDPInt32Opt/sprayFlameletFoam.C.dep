@@ -4,6 +4,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvCFD.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/compressible/lnInclude/turbulentFluidThermoModel.H \
 $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/basicSprayCloud.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/reactionThermo/lnInclude/psiReactionThermo.H \
+$(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptions.H \
 table.C \
@@ -66,6 +67,9 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/psiThermo.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/reactionThermo/lnInclude/basicSpecieMixture.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/autoPtr.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/runTimeSelectionTables.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/regIOobject.H \
+thermophysicalModels/thermophysicalProperties/lnInclude/liquidMixtureProperties.H \
+thermophysicalModels/thermophysicalProperties/lnInclude/solidMixtureProperties.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleNoLoopControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleLoop.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionConvergenceControl.H \
@@ -209,7 +213,6 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/CloudFunctionObjectList.
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/KinematicCloudI.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/KinematicCloud.C \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/thermoCloud.H \
-$(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/ThermoCloudI.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/ThermoCloud.C \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/reactingCloud.H \
@@ -226,6 +229,12 @@ $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/SprayParcel.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/reactionThermo/lnInclude/basicMultiComponentMixture.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/autoPtrI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/token.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobject.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/regIOobjectI.H \
+thermophysicalModels/thermophysicalProperties/lnInclude/liquidProperties.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrList.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarField.H \
+thermophysicalModels/thermophysicalProperties/lnInclude/solidProperties.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pisoControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleNoLoopControlI.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/correctorConvergenceControl.H \
@@ -233,7 +242,6 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleLoopI.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/convergenceControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionSolutionControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOption.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrList.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricField.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/geometricOneField.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvPatchField.H \
@@ -251,7 +259,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/prefixOSstream.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/char.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/int.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/uint.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/regIOobject.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordReList.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/objectRegistryTemplates.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/dimensionedScalar.H \
@@ -410,8 +417,6 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/DispersionModel.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/PatchInteractionModel.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/StochasticCollisionModel.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/SurfaceFilmModel.H \
-thermophysicalModels/thermophysicalProperties/lnInclude/liquidMixtureProperties.H \
-thermophysicalModels/thermophysicalProperties/lnInclude/solidMixtureProperties.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/HeatTransferModel.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/CompositionModel.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/PhaseChangeModel.H \
@@ -436,6 +441,16 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/reactionThermo/lnInclude/basicMultiCo
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/refCount.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tokenI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Istream.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobjectI.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobjectTemplates.C \
+thermophysicalModels/thermophysicalProperties/lnInclude/thermophysicalProperties.H \
+thermophysicalModels/thermophysicalProperties/lnInclude/liquidPropertiesI.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrList.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrListI.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrList.C \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFunctionsM.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/undefFieldFunctionsM.H \
+thermophysicalModels/thermophysicalProperties/lnInclude/solidPropertiesI.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fluidSolutionControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pisoControlI.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/solutionControl.H \
@@ -444,9 +459,6 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/convergenceControlTemplates.C \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionSolutionControlTemplates.C \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionSolutionControlI.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptionI.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrList.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrListI.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrList.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldField.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/lduInterfaceFieldPtrsList.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LduInterfaceFieldPtrsList.H \
@@ -471,8 +483,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/int32.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/int64.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/uint32.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/uint64.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobject.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/regIOobjectI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordRe.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/stringListOps.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/dimensionedScalarFwd.H \
@@ -522,7 +532,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Field.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/dimensionedType.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DimensionedScalarField.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DimensionedFieldFunctionsM.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/undefFieldFunctionsM.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DimensionedFieldIO.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DimensionedFieldFunctions.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/simpleRegIOobject.H \
@@ -635,9 +644,6 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/PatchInteractionModel.C 
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/StochasticCollisionModel.C \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/SurfaceFilmModelI.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/SurfaceFilmModel.C \
-thermophysicalModels/thermophysicalProperties/lnInclude/liquidProperties.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarField.H \
-thermophysicalModels/thermophysicalProperties/lnInclude/solidProperties.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/HeatTransferModel.C \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/phasePropertiesList.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/CompositionModel.C \
@@ -652,13 +658,16 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/specie/lnInclude/specie.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/ReactingParcelIO.C \
 $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/SprayParcelIO.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/hashedWordList.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/nonOrthogonalSolutionControl.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fluidSolutionControlI.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/solutionControlI.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/foamVersion.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/fileOperation.H \
+thermophysicalModels/thermophysicalProperties/lnInclude/thermophysicalPropertiesI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrListI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrList.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SLPtrList.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrListIO.C \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/nonOrthogonalSolutionControl.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fluidSolutionControlI.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/solutionControlI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFieldFunctions.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldField.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/lduInterfaceField.H \
@@ -676,8 +685,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/ListOpsTemplates.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Ostream.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PstreamBuffers.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/OSstreamI.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobjectI.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobjectTemplates.C \
 $(WM_PROJECT_DIR)/src/OSspecific/POSIX/lnInclude/regExp.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/keyType.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordReI.H \
@@ -714,7 +721,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Scalar.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SolverPerformance.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/VectorSpaceI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/VectorSpace.C \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFunctionsM.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldMapper.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldM.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/mapDistributeBase.H \
@@ -807,9 +813,6 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/PatchInteractionModelNew
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/StochasticCollisionModelNew.C \
 $(WM_PROJECT_DIR)/src/regionModels/surfaceFilmModels/lnInclude/surfaceFilmRegionModel.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/SurfaceFilmModelNew.C \
-thermophysicalModels/thermophysicalProperties/lnInclude/thermophysicalProperties.H \
-thermophysicalModels/thermophysicalProperties/lnInclude/liquidPropertiesI.H \
-thermophysicalModels/thermophysicalProperties/lnInclude/solidPropertiesI.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/HeatTransferModelNew.C \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/phaseProperties.H \
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/CompositionModelNew.C \
@@ -818,10 +821,12 @@ $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/AtomizationModelNew.C \
 $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/BreakupModelNew.C \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/specie/lnInclude/specieI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/hashedWordListI.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/nonOrthogonalSolutionControlI.H \
+$(WM_PROJECT_DIR)/src/OSspecific/POSIX/lnInclude/fileMonitor.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tmpNrc.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrListIO.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LPtrList.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/INew.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/nonOrthogonalSolutionControlI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarFieldField.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFieldFunctionsM.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFieldFunctions.C \
@@ -832,8 +837,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricFieldReuseFunctions.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricFieldFunctionsM.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/oneFieldI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarMatrices.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/foamVersion.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/fileOperation.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/keyTypeI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordReListMatcherI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IndirectListI.H \
@@ -900,7 +903,7 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/InjectionModelNew.C \
 $(WM_PROJECT_DIR)/src/regionModels/surfaceFilmModels/lnInclude/surfaceFilmModel.H \
 $(WM_PROJECT_DIR)/src/regionModels/regionModel/lnInclude/singleLayerRegion.H \
 $(WM_PROJECT_DIR)/src/regionModels/surfaceFilmModels/lnInclude/surfaceFilmRegionModelI.H \
-thermophysicalModels/thermophysicalProperties/lnInclude/thermophysicalPropertiesI.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tmpNrcI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LPtrList.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarFieldField.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFieldReuseFunctions.H \
@@ -910,8 +913,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SquareMatrix.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SymmetricSquareMatrix.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DiagonalMatrix.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarMatricesTemplates.C \
-$(WM_PROJECT_DIR)/src/OSspecific/POSIX/lnInclude/fileMonitor.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tmpNrc.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Vector2D.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/point2D.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/lineI.H \
@@ -966,7 +967,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SquareMatrix.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SymmetricSquareMatrixI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SymmetricSquareMatrix.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DiagonalMatrix.C \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tmpNrcI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Vector2DI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LduMatrixOperations.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LduMatrixATmul.C \
@@ -1038,6 +1038,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvCFD.H :
 $(WM_PROJECT_DIR)/src/TurbulenceModels/compressible/lnInclude/turbulentFluidThermoModel.H :
 $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/basicSprayCloud.H :
 $(WM_PROJECT_DIR)/src/thermophysicalModels/reactionThermo/lnInclude/psiReactionThermo.H :
+$(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptions.H :
 table.C :
@@ -1100,6 +1101,9 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/psiThermo.H :
 $(WM_PROJECT_DIR)/src/thermophysicalModels/reactionThermo/lnInclude/basicSpecieMixture.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/autoPtr.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/runTimeSelectionTables.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/regIOobject.H :
+thermophysicalModels/thermophysicalProperties/lnInclude/liquidMixtureProperties.H :
+thermophysicalModels/thermophysicalProperties/lnInclude/solidMixtureProperties.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleNoLoopControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleLoop.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionConvergenceControl.H :
@@ -1243,7 +1247,6 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/CloudFunctionObjectList.
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/KinematicCloudI.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/KinematicCloud.C :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/thermoCloud.H :
-$(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/ThermoCloudI.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/ThermoCloud.C :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/reactingCloud.H :
@@ -1260,6 +1263,12 @@ $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/SprayParcel.H :
 $(WM_PROJECT_DIR)/src/thermophysicalModels/reactionThermo/lnInclude/basicMultiComponentMixture.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/autoPtrI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/token.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobject.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/regIOobjectI.H :
+thermophysicalModels/thermophysicalProperties/lnInclude/liquidProperties.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrList.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarField.H :
+thermophysicalModels/thermophysicalProperties/lnInclude/solidProperties.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pisoControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleNoLoopControlI.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/correctorConvergenceControl.H :
@@ -1267,7 +1276,6 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleLoopI.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/convergenceControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionSolutionControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOption.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrList.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricField.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/geometricOneField.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvPatchField.H :
@@ -1285,7 +1293,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/prefixOSstream.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/char.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/int.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/uint.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/regIOobject.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordReList.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/objectRegistryTemplates.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/dimensionedScalar.H :
@@ -1444,8 +1451,6 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/DispersionModel.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/PatchInteractionModel.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/StochasticCollisionModel.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/SurfaceFilmModel.H :
-thermophysicalModels/thermophysicalProperties/lnInclude/liquidMixtureProperties.H :
-thermophysicalModels/thermophysicalProperties/lnInclude/solidMixtureProperties.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/HeatTransferModel.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/CompositionModel.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/PhaseChangeModel.H :
@@ -1470,6 +1475,16 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/reactionThermo/lnInclude/basicMultiCo
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/refCount.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tokenI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Istream.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobjectI.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobjectTemplates.C :
+thermophysicalModels/thermophysicalProperties/lnInclude/thermophysicalProperties.H :
+thermophysicalModels/thermophysicalProperties/lnInclude/liquidPropertiesI.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrList.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrListI.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrList.C :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFunctionsM.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/undefFieldFunctionsM.H :
+thermophysicalModels/thermophysicalProperties/lnInclude/solidPropertiesI.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fluidSolutionControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pisoControlI.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/solutionControl.H :
@@ -1478,9 +1493,6 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/convergenceControlTemplates.C :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionSolutionControlTemplates.C :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionSolutionControlI.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptionI.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrList.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrListI.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrList.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldField.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/lduInterfaceFieldPtrsList.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LduInterfaceFieldPtrsList.H :
@@ -1505,8 +1517,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/int32.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/int64.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/uint32.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/uint64.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobject.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/regIOobjectI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordRe.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/stringListOps.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/dimensionedScalarFwd.H :
@@ -1556,7 +1566,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Field.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/dimensionedType.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DimensionedScalarField.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DimensionedFieldFunctionsM.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/undefFieldFunctionsM.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DimensionedFieldIO.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DimensionedFieldFunctions.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/simpleRegIOobject.H :
@@ -1669,9 +1678,6 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/PatchInteractionModel.C 
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/StochasticCollisionModel.C :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/SurfaceFilmModelI.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/SurfaceFilmModel.C :
-thermophysicalModels/thermophysicalProperties/lnInclude/liquidProperties.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarField.H :
-thermophysicalModels/thermophysicalProperties/lnInclude/solidProperties.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/HeatTransferModel.C :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/phasePropertiesList.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/CompositionModel.C :
@@ -1686,13 +1692,16 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/specie/lnInclude/specie.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/ReactingParcelIO.C :
 $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/SprayParcelIO.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/hashedWordList.H :
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/nonOrthogonalSolutionControl.H :
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fluidSolutionControlI.H :
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/solutionControlI.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/foamVersion.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/fileOperation.H :
+thermophysicalModels/thermophysicalProperties/lnInclude/thermophysicalPropertiesI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrListI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrList.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SLPtrList.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PtrListIO.C :
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/nonOrthogonalSolutionControl.H :
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fluidSolutionControlI.H :
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/solutionControlI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFieldFunctions.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldField.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/lduInterfaceField.H :
@@ -1710,8 +1719,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/ListOpsTemplates.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Ostream.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/PstreamBuffers.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/OSstreamI.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobjectI.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOobjectTemplates.C :
 $(WM_PROJECT_DIR)/src/OSspecific/POSIX/lnInclude/regExp.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/keyType.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordReI.H :
@@ -1748,7 +1755,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Scalar.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SolverPerformance.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/VectorSpaceI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/VectorSpace.C :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFunctionsM.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldMapper.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldM.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/mapDistributeBase.H :
@@ -1841,9 +1847,6 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/PatchInteractionModelNew
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/StochasticCollisionModelNew.C :
 $(WM_PROJECT_DIR)/src/regionModels/surfaceFilmModels/lnInclude/surfaceFilmRegionModel.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/SurfaceFilmModelNew.C :
-thermophysicalModels/thermophysicalProperties/lnInclude/thermophysicalProperties.H :
-thermophysicalModels/thermophysicalProperties/lnInclude/liquidPropertiesI.H :
-thermophysicalModels/thermophysicalProperties/lnInclude/solidPropertiesI.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/HeatTransferModelNew.C :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/phaseProperties.H :
 $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/CompositionModelNew.C :
@@ -1852,10 +1855,12 @@ $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/AtomizationModelNew.C :
 $(WM_PROJECT_DIR)/src/lagrangian/spray/lnInclude/BreakupModelNew.C :
 $(WM_PROJECT_DIR)/src/thermophysicalModels/specie/lnInclude/specieI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/hashedWordListI.H :
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/nonOrthogonalSolutionControlI.H :
+$(WM_PROJECT_DIR)/src/OSspecific/POSIX/lnInclude/fileMonitor.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tmpNrc.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPtrListIO.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LPtrList.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/INew.H :
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/nonOrthogonalSolutionControlI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarFieldField.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFieldFunctionsM.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFieldFunctions.C :
@@ -1866,8 +1871,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricFieldReuseFunctions.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricFieldFunctionsM.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/oneFieldI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarMatrices.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/foamVersion.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/fileOperation.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/keyTypeI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordReListMatcherI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IndirectListI.H :
@@ -1934,7 +1937,7 @@ $(WM_PROJECT_DIR)/src/lagrangian/intermediate/lnInclude/InjectionModelNew.C :
 $(WM_PROJECT_DIR)/src/regionModels/surfaceFilmModels/lnInclude/surfaceFilmModel.H :
 $(WM_PROJECT_DIR)/src/regionModels/regionModel/lnInclude/singleLayerRegion.H :
 $(WM_PROJECT_DIR)/src/regionModels/surfaceFilmModels/lnInclude/surfaceFilmRegionModelI.H :
-thermophysicalModels/thermophysicalProperties/lnInclude/thermophysicalPropertiesI.H :
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tmpNrcI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LPtrList.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarFieldField.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/FieldFieldReuseFunctions.H :
@@ -1944,8 +1947,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SquareMatrix.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SymmetricSquareMatrix.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DiagonalMatrix.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarMatricesTemplates.C :
-$(WM_PROJECT_DIR)/src/OSspecific/POSIX/lnInclude/fileMonitor.H :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tmpNrc.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Vector2D.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/point2D.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/lineI.H :
@@ -2000,7 +2001,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SquareMatrix.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SymmetricSquareMatrixI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/SymmetricSquareMatrix.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DiagonalMatrix.C :
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/tmpNrcI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Vector2DI.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LduMatrixOperations.C :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LduMatrixATmul.C :

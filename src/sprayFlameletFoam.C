@@ -33,6 +33,7 @@ Description
 #include "turbulentFluidThermoModel.H"
 #include "basicSprayCloud.H"
 #include "psiReactionThermo.H"
+#include "SLGThermo.H"
 #include "pimpleControl.H"
 #include "fvOptions.H"
 
@@ -93,9 +94,8 @@ int main(int argc, char *argv[])
                 turbulence->correct();
             }
         }
-        runTime.write();
-        
         rho = thermo.rho();
+        runTime.write();
     }
 
     Info<< nl << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
