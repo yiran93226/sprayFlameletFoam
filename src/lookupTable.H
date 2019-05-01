@@ -4,10 +4,12 @@
     {
         double Zeta = std::sqrt(varZ[i]/std::max(Z[i]*(1-Z[i]), 1e-10));
         flameletTable.find(Z[i], Zeta, chi[i]);
-        he[i] = flameletTable.lookupT();
+        double tT = flameletTable.lookupT();
+        he[i] = 0;
         forAll(Y, j)
         {
             Y[j][i] = flameletTable.lookupY(j);
+            he[i] += Y[j][i]*thermo.composition().Hs(j, p[i], tT);
         }
     }
     // he = thermo.he(p,T);

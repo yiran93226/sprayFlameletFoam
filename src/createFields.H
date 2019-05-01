@@ -177,5 +177,6 @@ fields.add(thermo.he());
 #include "createFvOptions.H"
 
 volScalarField& T = thermo.T();
+volScalarField tT(T);
 const volScalarField& psi = thermo.psi();
 const label oxidizerIndex(composition.species()[oxidizerSpecie]);
