@@ -1,0 +1,10 @@
+$(OBJECTS_DIR)/selector.C.dep: \
+selector.C \
+selector.H \
+tableSolver.H \
+table.H \
+
+selector.H :
+tableSolver.H :
+table.H :
+

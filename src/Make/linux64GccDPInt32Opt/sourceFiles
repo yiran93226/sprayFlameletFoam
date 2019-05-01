@@ -1,2 +1,5 @@
 SOURCE = \
+table.C \
+tableSolver.C \
+selector.C \
 sprayFlameletFoam.C 

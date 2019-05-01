@@ -9,13 +9,15 @@
         forAll(Y, j)
         {
             Y[j][i] = flameletTable.lookupY(j);
-            he[i] += Y[j][i]*thermo.composition().Hs(j, p[i], tT);
+            he[i] += Y[j][i]*thermo.composition().Hs(j, 1e05, tT);
         }
     }
     // he = thermo.he(p,T);
     thermo.correct();
     Info<< "T gas min/max : " << min(T).value() << ", "
         << max(T).value() << endl;
+    Info<< "p min/max : " << min(p).value() << ", "
+        << max(p).value() << endl;
     Info<< "Y oxidizer min/max : " << min(Y[oxidizerIndex]).value() << ", "
         << max(Y[oxidizerIndex]).value() << endl;
 }

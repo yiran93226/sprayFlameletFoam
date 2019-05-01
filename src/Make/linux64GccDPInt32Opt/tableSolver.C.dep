@@ -1,0 +1,8 @@
+$(OBJECTS_DIR)/tableSolver.C.dep: \
+tableSolver.C \
+tableSolver.H \
+table.H \
+
+tableSolver.H :
+table.H :
+
