@@ -8,8 +8,8 @@
 
     scalarField& heCells = he.primitiveFieldRef();
 
-    scalar Zeta;
-    scalar tT;
+    scalar Zeta = 0.0;
+    scalar tT = 0.0;
 
     forAll(Y, i)
     {
@@ -30,7 +30,7 @@
         }
     }
 
-    forAll(he.boundaryField(), patchI)
+    forAll(Z.boundaryField(), patchI)
     {
         const fvPatchScalarField& pchi = chi.boundaryField()[patchI];
         const fvPatchScalarField& pvarZ = varZ.boundaryField()[patchI];
@@ -43,7 +43,7 @@
         {
             fvPatchScalarField& pY = Y[i].boundaryFieldRef()[patchI];
 
-            forAll(pY, faceI)
+            forAll(pZ, faceI)
             {
                 if (i == 0)
                 {
