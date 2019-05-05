@@ -13,11 +13,15 @@ EXE_INC = \
     -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
     -I$(LIB_SRC)/transportModels/compressible/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
-    -IthermophysicalModels/thermophysicalProperties/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/thermophysicalProperties/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/reactionThermo/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/SLGThermo/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/chemistryModel/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/radiation/lnInclude \
+    -I$(LIB_SRC)/ODE/lnInclude \
     -I$(LIB_SRC)/regionModels/regionModel/lnInclude \
-    -I$(LIB_SRC)/regionModels/surfaceFilmModels/lnInclude
+    -I$(LIB_SRC)/regionModels/surfaceFilmModels/lnInclude \
+    -I$(LIB_SRC)/combustionModels/lnInclude
 
 EXE_LIBS = \
     -lturbulenceModels \
@@ -32,8 +36,12 @@ EXE_LIBS = \
     -lthermophysicalProperties \
     -lreactionThermophysicalModels \
     -lSLGThermo \
+    -lchemistryModel \
+    -lradiationModels \
+    -lODE \
     -lregionModels \
     -lsurfaceFilmModels \
+    -lcombustionModels \
     -lfiniteVolume \
     -lfvOptions \
     -lmeshTools \

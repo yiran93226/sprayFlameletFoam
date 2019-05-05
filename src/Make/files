@@ -3,4 +3,4 @@ tableSolver.C
 selector.C
 sprayFlameletFoam.C
 
-EXE = $(FOAM_USER_APPBIN)/sprayFlameletFoam
+EXE = $(FOAM_USER_APPBIN)/sprayFlameletFoamTMP

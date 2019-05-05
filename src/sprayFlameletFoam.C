@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2019 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -33,6 +33,8 @@ Description
 #include "turbulentFluidThermoModel.H"
 #include "basicSprayCloud.H"
 #include "psiReactionThermo.H"
+// #include "CombustionModel.H"
+#include "radiationModel.H"
 #include "SLGThermo.H"
 #include "pimpleControl.H"
 #include "fvOptions.H"
@@ -53,6 +55,7 @@ int main(int argc, char *argv[])
     #include "createControl.H"
     #include "createTimeControls.H"
     #include "createFields.H"
+    #include "createFieldRefs.H"
     #include "compressibleCourantNo.H"
     #include "setInitialDeltaT.H"
     #include "initContinuityErrs.H"
@@ -74,33 +77,49 @@ int main(int argc, char *argv[])
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
         parcels.evolve();
-        
-        #include "rhoEqn.H"
 
-        // Pressure-velocity PIMPLE corrector loop
-        while (pimple.loop())
+        if (!pimple.frozenFlow())
         {
-            #include "UEqn.H"
-            #include "ZEqn.H"
-            #include "lookupTable.H"
+            #include "rhoEqn.H"
 
-            while (pimple.correct())
+            // --- Pressure-velocity PIMPLE corrector loop
+            while (pimple.loop())
             {
-                #include "pEqn.H"
+                #include "UEqn.H"
+                #include "ZEqn.H"
+                #include "lookupTable.H"
+
+                // --- Pressure corrector loop
+                while (pimple.correct())
+                {
+                    #include "pEqn.H"
+                }
+
+                if (pimple.turbCorr())
+                {
+                    turbulence->correct();
+                }
             }
 
-            if (pimple.turbCorr())
+            rho = thermo.rho();
+
+            if (runTime.write())
             {
-                turbulence->correct();
+                // combustion->Qdot()().write();
             }
         }
-        rho = thermo.rho();
-        runTime.write();
-    }
+        else
+        {
+            if (runTime.writeTime())
+            {
+                parcels.write();
+            }
+        }
 
-    Info<< nl << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-        << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-        << nl << endl;
+        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+            << nl << endl;
+    }
 
     Info<< "End\n" << endl;
 

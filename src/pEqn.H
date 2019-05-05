@@ -109,3 +109,5 @@ if (thermo.dpdt())
 {
     dpdt = fvc::ddt(p);
 }
+
+// p.max(101325.0);
