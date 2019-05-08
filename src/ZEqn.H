@@ -25,7 +25,7 @@ tmp<fv::convectionScheme<scalar>> mvConvection
     fvOptions.correct(Z);
     Z.max(0.0);
 
-    chi = 2*turbulence->muEff()/rho*mag(fvc::grad(Z))*mag(fvc::grad(Z));
+    chi = 0.0 * 2*turbulence->muEff()/rho*mag(fvc::grad(Z))*mag(fvc::grad(Z));
 
     Info<< "Z min/max : " << min(Z).value() << ", "
         << max(Z).value() << endl;

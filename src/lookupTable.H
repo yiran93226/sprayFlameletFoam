@@ -10,10 +10,12 @@
 
     scalar Zeta = 0.0;
     scalar tT = 0.0;
+    scalar tY = 0.0;
 
+    volScalarField Yt(0.0*Y[0]);
     forAll(ZCells, cellI)
     {
-        Zeta = Foam::sqrt(varZCells[cellI]/Foam::max(ZCells[cellI]*(1 - ZCells[cellI]), small));
+        Zeta = Foam::sqrt(varZCells[cellI]/Foam::max(ZCells[cellI]*(1 - ZCells[cellI]), SMALL));
         flameletTable.find(ZCells[cellI], Zeta, chiCells[cellI]);
         heCells[cellI] = 0.0;
         tT = flameletTable.lookupT();
@@ -22,8 +24,11 @@
         {
             scalarField& YCells = Y[i].primitiveFieldRef();
             YCells[cellI] = flameletTable.lookupY(i);
-            heCells[cellI] += YCells[cellI]*thermo.composition().Hs(i, pCells[cellI], tT);
+            tY = flameletTable.lookupY(i);
+            heCells[cellI] += YCells[cellI]*thermo.composition().Hs(i, 1e5, tT);
+            // heCells[cellI] += tY*thermo.composition().Hs(i, pCells[cellI], tT);
             // heCells[cellI] += YCells[cellI]*thermo.composition().Hs(i, 1e5, tT);
+            Yt[cellI] += Y[i][cellI];
         }
     }
 
@@ -35,10 +40,11 @@
         const fvPatchScalarField& pp = p.boundaryField()[patchI];
 
         fvPatchScalarField& phe = he.boundaryFieldRef()[patchI];
+        fvPatchScalarField& pYt = Yt.boundaryFieldRef()[patchI];
 
         forAll(pZ, faceI)
         {
-            Zeta = Foam::sqrt(pvarZ[faceI]/Foam::max(pZ[faceI]*(1 - pZ[faceI]), small));
+            Zeta = Foam::sqrt(pvarZ[faceI]/Foam::max(pZ[faceI]*(1 - pZ[faceI]), SMALL));
             flameletTable.find(pZ[faceI], Zeta, pchi[faceI]);
             phe[faceI] = 0.0;
             tT = flameletTable.lookupT();
@@ -47,8 +53,11 @@
             {
                 fvPatchScalarField& pY = Y[i].boundaryFieldRef()[patchI];
                 pY[faceI] = flameletTable.lookupY(i);
-                phe[faceI] += pY[faceI]*thermo.composition().Hs(i, pp[faceI], tT);
-                // phe[faceI] += pY[faceI]*thermo.composition().Hs(i, 1e5, tT);
+                tY = flameletTable.lookupY(i);
+                // phe[faceI] += pY[faceI]*thermo.composition().Hs(i, pp[faceI], tT);
+                // phe[faceI] += tY*thermo.composition().Hs(i, 1e5, tT);
+                phe[faceI] += pY[faceI]*thermo.composition().Hs(i, 1e5, tT);
+                pYt[faceI] += pY[faceI];
             }
         }
     }
@@ -93,4 +102,10 @@
         << max(p).value() << endl;
     Info<< "Y oxidizer min/max : " << min(Y[oxidizerIndex]).value() << ", "
         << max(Y[oxidizerIndex]).value() << endl;
+    Info<< "Yt min/max : " << min(Yt).value() << ", "
+        << max(Yt).value() << endl;
+
+
+    flameletTable.find(0.271, 0.0, 0.0);
+    Info<< "Find Z0.271 TEMPERATURE: " << flameletTable.lookupT() << endl;
 }
