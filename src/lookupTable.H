@@ -11,6 +11,7 @@
     scalar Zeta = 0.0;
     scalar tT = 0.0;
     scalar tY = 0.0;
+    double y = 0.0;
 
     volScalarField Yt(0.0*Y[0]);
     forAll(ZCells, cellI)
@@ -19,12 +20,16 @@
         flameletTable.find(ZCells[cellI], Zeta, chiCells[cellI]);
         heCells[cellI] = 0.0;
         tT = flameletTable.lookupT();
+        
+        // T is a function of y coordinate
+        y = mesh.C()[cellI][1];
+        tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2))/(Foam::sqrt(0.001 * Foam::constant::mathematical::pi)*2) + 1);
 
         forAll(Y, i)
         {
             scalarField& YCells = Y[i].primitiveFieldRef();
-            YCells[cellI] = flameletTable.lookupY(i);
-            tY = flameletTable.lookupY(i);
+            // YCells[cellI] = flameletTable.lookupY(i);
+            // tY = flameletTable.lookupY(i);
             heCells[cellI] += YCells[cellI]*thermo.composition().Hs(i, 1e5, tT);
             // heCells[cellI] += tY*thermo.composition().Hs(i, pCells[cellI], tT);
             // heCells[cellI] += YCells[cellI]*thermo.composition().Hs(i, 1e5, tT);
@@ -52,8 +57,8 @@
             forAll(Y, i)
             {
                 fvPatchScalarField& pY = Y[i].boundaryFieldRef()[patchI];
-                pY[faceI] = flameletTable.lookupY(i);
-                tY = flameletTable.lookupY(i);
+                // pY[faceI] = flameletTable.lookupY(i);
+                // tY = flameletTable.lookupY(i);
                 // phe[faceI] += pY[faceI]*thermo.composition().Hs(i, pp[faceI], tT);
                 // phe[faceI] += tY*thermo.composition().Hs(i, 1e5, tT);
                 phe[faceI] += pY[faceI]*thermo.composition().Hs(i, 1e5, tT);
@@ -108,4 +113,6 @@
 
     flameletTable.find(0.271, 0.0, 0.0);
     Info<< "Find Z0.271 TEMPERATURE: " << flameletTable.lookupT() << endl;
+    flameletTable.find(0.01, 0.0, 0.0);
+    Info<< "Find Z0.01 YO2: " << flameletTable.lookupY(oxidizerIndex) << endl;
 }
