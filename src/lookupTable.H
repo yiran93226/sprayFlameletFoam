@@ -7,6 +7,7 @@
     const scalarField& pCells = p.internalField();
 
     scalarField& heCells = he.primitiveFieldRef();
+    scalarField& TCells = T.primitiveFieldRef();
 
     scalar Zeta = 0.0;
     scalar tT = 0.0;
@@ -22,8 +23,9 @@
         tT = flameletTable.lookupT();
         
         // T is a function of y coordinate
-        y = mesh.C()[cellI][1];
-        tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2))/(Foam::sqrt(0.001 * Foam::constant::mathematical::pi)*2) + 1);
+        // y = mesh.C()[cellI][1];
+        // tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2*6))/(Foam::sqrt(0.005 * Foam::constant::mathematical::pi)*2) + 1);
+        TCells[cellI] = tT;
 
         forAll(Y, i)
         {
@@ -45,6 +47,7 @@
         const fvPatchScalarField& pp = p.boundaryField()[patchI];
 
         fvPatchScalarField& phe = he.boundaryFieldRef()[patchI];
+        fvPatchScalarField& pT = T.boundaryFieldRef()[patchI];
         fvPatchScalarField& pYt = Yt.boundaryFieldRef()[patchI];
 
         forAll(pZ, faceI)
@@ -54,6 +57,11 @@
             phe[faceI] = 0.0;
             tT = flameletTable.lookupT();
 
+            // T(y)
+            // y = pZ.patch().Cf()[faceI][1];
+            // tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2*6))/(Foam::sqrt(0.005 * Foam::constant::mathematical::pi)*2) + 1);
+            pT[faceI] = tT;
+            
             forAll(Y, i)
             {
                 fvPatchScalarField& pY = Y[i].boundaryFieldRef()[patchI];
