@@ -103,10 +103,7 @@ int main(int argc, char *argv[])
 
             rho = thermo.rho();
 
-            if (runTime.write())
-            {
-                // combustion->Qdot()().write();
-            }
+            runTime.write();
         }
         else
         {

@@ -10,19 +10,20 @@ FoamFile
     version     2.0;
     format      ascii;
     class       volScalarField;
-    object      N2;
+    object      AR;
 }
 // ************************************************************************* //
 
 dimensions          [0 0 0 0 0 0 0];
 
-internalField       uniform 0.75425;
+internalField       uniform 0.01378;
 
 boundaryField
 {
     walls
     {
-        type                zeroGradient;
+        type                calculated;
+        value               uniform 0.01378;
     }
 }
 

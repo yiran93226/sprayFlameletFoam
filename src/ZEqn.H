@@ -25,10 +25,40 @@ tmp<fv::convectionScheme<scalar>> mvConvection
     fvOptions.correct(Z);
     Z.max(0.0);
 
-    chi = 2*turbulence->muEff()/rho*mag(fvc::grad(Z))*mag(fvc::grad(Z));
+
+    if (turbulenceModelType == "RAS")
+    {
+        fvScalarMatrix varZEqn
+        (
+            fvm::ddt(rho, varZ) + fvm::div(phi, varZ)
+          - fvm::laplacian(turbulence->muEff(), varZ)
+          - 2.0*turbulence->muEff()*magSqr(fvc::grad(Z))
+          + 2.0*rho*turbulence->epsilon()/turbulence->k()*varZ
+          - 0.5*varZ.internalField()*parcels.Srho()/Z.internalField()
+        );
+        varZEqn.relax();
+        varZEqn.solve(mesh.solver("varZ"));
+        varZ.max(0.0);
+        chi = 2.0*turbulence->epsilon()/turbulence->k()*varZ;
+    }
+    else if (turbulenceModelType == "laminar")
+    {
+        chi = 2*turbulence->muEff()/rho*mag(fvc::grad(Z))*mag(fvc::grad(Z));
+    }
+    else 
+    {
+        FatalErrorInFunction
+            << "Turbulence model " << turbulenceModelType
+            << " is not implemented in the current flamelet-based solver"
+            << abort(FatalError);
+    }
+
 
     Info<< "Z min/max : " << min(Z).value() << ", "
         << max(Z).value() << endl;
+
+    Info<< "varZ min/max : " << min(varZ).value() << ", "
+        << max(varZ).value() << endl;
 
     Info<< "chi min/max : " << min(chi).value() << ", "
         << max(chi).value() << endl;

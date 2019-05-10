@@ -10,32 +10,27 @@
     scalarField& TCells = T.primitiveFieldRef();
 
     scalar Zeta = 0.0;
-    scalar tT = 0.0;
-    scalar tY = 0.0;
-    double y = 0.0;
+    // double y = 0.0;
 
     volScalarField Yt(0.0*Y[0]);
-    forAll(ZCells, cellI)
+    forAll(ZCells, celli)
     {
-        Zeta = Foam::sqrt(varZCells[cellI]/Foam::max(ZCells[cellI]*(1 - ZCells[cellI]), SMALL));
-        flameletTable.find(ZCells[cellI], Zeta, chiCells[cellI]);
-        heCells[cellI] = 0.0;
-        tT = flameletTable.lookupT();
+        Zeta = Foam::sqrt(varZCells[celli]/Foam::max(ZCells[celli]*(1 - ZCells[celli]), SMALL));
+        flameletTable.find(ZCells[celli], Zeta, chiCells[celli]);
+        heCells[celli] = 0.0;
+        TCells[celli] = flameletTable.lookupT();
         
-        // T is a function of y coordinate
-        // y = mesh.C()[cellI][1];
-        // tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2*6))/(Foam::sqrt(0.005 * Foam::constant::mathematical::pi)*2) + 1);
-        TCells[cellI] = tT;
+        // T as a function of y coordinate -- test
+        // y = mesh.C()[celli][1];
+        // tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2*6))
+        //     / (Foam::sqrt(0.005 * Foam::constant::mathematical::pi)*2) + 1);
 
         forAll(Y, i)
         {
             scalarField& YCells = Y[i].primitiveFieldRef();
-            // YCells[cellI] = flameletTable.lookupY(i);
-            // tY = flameletTable.lookupY(i);
-            heCells[cellI] += YCells[cellI]*thermo.composition().Hs(i, 1e5, tT);
-            // heCells[cellI] += tY*thermo.composition().Hs(i, pCells[cellI], tT);
-            // heCells[cellI] += YCells[cellI]*thermo.composition().Hs(i, 1e5, tT);
-            Yt[cellI] += Y[i][cellI];
+            YCells[celli] = flameletTable.lookupY(i);
+            heCells[celli] += YCells[celli]*thermo.composition().Hs(i, pCells[celli], TCells[celli]);
+            Yt[celli] += Y[i][celli];
         }
     }
 
@@ -50,27 +45,23 @@
         fvPatchScalarField& pT = T.boundaryFieldRef()[patchI];
         fvPatchScalarField& pYt = Yt.boundaryFieldRef()[patchI];
 
-        forAll(pZ, faceI)
+        forAll(pZ, facei)
         {
-            Zeta = Foam::sqrt(pvarZ[faceI]/Foam::max(pZ[faceI]*(1 - pZ[faceI]), SMALL));
-            flameletTable.find(pZ[faceI], Zeta, pchi[faceI]);
-            phe[faceI] = 0.0;
-            tT = flameletTable.lookupT();
+            Zeta = Foam::sqrt(pvarZ[facei]/Foam::max(pZ[facei]*(1 - pZ[facei]), SMALL));
+            flameletTable.find(pZ[facei], Zeta, pchi[facei]);
+            phe[facei] = 0.0;
+            pT[facei] = flameletTable.lookupT();
 
-            // T(y)
-            // y = pZ.patch().Cf()[faceI][1];
-            // tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2*6))/(Foam::sqrt(0.005 * Foam::constant::mathematical::pi)*2) + 1);
-            pT[faceI] = tT;
+            // y = pZ.patch().Cf()[facei][1];
+            // tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2*6))
+            //     / (Foam::sqrt(0.005 * Foam::constant::mathematical::pi)*2) + 1);
             
             forAll(Y, i)
             {
                 fvPatchScalarField& pY = Y[i].boundaryFieldRef()[patchI];
-                // pY[faceI] = flameletTable.lookupY(i);
-                // tY = flameletTable.lookupY(i);
-                // phe[faceI] += pY[faceI]*thermo.composition().Hs(i, pp[faceI], tT);
-                // phe[faceI] += tY*thermo.composition().Hs(i, 1e5, tT);
-                phe[faceI] += pY[faceI]*thermo.composition().Hs(i, 1e5, tT);
-                pYt[faceI] += pY[faceI];
+                pY[facei] = flameletTable.lookupY(i);
+                phe[facei] += pY[facei]*thermo.composition().Hs(i, pp[facei], pT[facei]);
+                pYt[facei] += pY[facei];
             }
         }
     }
@@ -110,17 +101,12 @@
 
     Info<< "T gas min/max   " << min(T).value() << ", "
         << max(T).value() << endl;
-
     Info<< "p min/max : " << min(p).value() << ", "
         << max(p).value() << endl;
     Info<< "Y oxidizer min/max : " << min(Y[oxidizerIndex]).value() << ", "
         << max(Y[oxidizerIndex]).value() << endl;
-    Info<< "Yt min/max : " << min(Yt).value() << ", "
+    Info<< "Sum Y min/max : " << min(Yt).value() << ", "
         << max(Yt).value() << endl;
-
-
-    flameletTable.find(0.271, 0.0, 0.0);
-    Info<< "Find Z0.271 TEMPERATURE: " << flameletTable.lookupT() << endl;
-    flameletTable.find(0.01, 0.0, 0.0);
-    Info<< "Find Z0.01 YO2: " << flameletTable.lookupY(oxidizerIndex) << endl;
+    // flameletTable.find(0.271, 0.0, 0.0);
+    // Info<< "Find Z0.271 TEMPERATURE: " << flameletTable.lookupT() << endl;
 }

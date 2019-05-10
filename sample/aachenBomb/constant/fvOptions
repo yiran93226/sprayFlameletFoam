@@ -14,6 +14,8 @@ FoamFile
     object      fvOptions;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+/*
 source1
 {
     type            scalarFixedValueConstraint;
@@ -33,7 +35,6 @@ source1
     mode            uniform;
 }
  
-/*
 energySource1
 {
     type            scalarSemiImplicitSource;
