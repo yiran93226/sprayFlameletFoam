@@ -44,6 +44,9 @@ tmp<fv::convectionScheme<scalar>> mvConvection
     else if (turbulenceModelType == "laminar")
     {
         chi = 2*turbulence->muEff()/rho*mag(fvc::grad(Z))*mag(fvc::grad(Z));
+        // Info<< "DZ min/max : "
+        //     << min(turbulence->muEff()/rho).value() << ", "
+        //     << max(turbulence->muEff()/rho).value() << endl;
     }
     else 
     {
