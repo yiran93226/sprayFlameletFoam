@@ -34,7 +34,7 @@ tmp<fv::convectionScheme<scalar>> mvConvection
           - fvm::laplacian(turbulence->muEff(), varZ)
           - 2.0*turbulence->muEff()*magSqr(fvc::grad(Z))
           + 2.0*rho*turbulence->epsilon()/turbulence->k()*varZ
-          - 0.5*varZ.internalField()*parcels.Srho()/Z.internalField()
+          - 0.5*varZ.internalField()*parcels.Srho()/(Z.internalField()+SMALL)
         );
         varZEqn.relax();
         varZEqn.solve(mesh.solver("varZ"));
