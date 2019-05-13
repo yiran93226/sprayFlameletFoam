@@ -1,0 +1,6 @@
+$(OBJECTS_DIR)/Gamma.cpp.dep: \
+Gamma.cpp \
+Gamma.h \
+
+Gamma.h :
+
