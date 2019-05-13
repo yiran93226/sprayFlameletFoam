@@ -1,3 +1,5 @@
+// Modified from https://github.com/flameletFoam/flameletFoam-2.3.x
+
 #include <iostream>
 #include "scalar.H"
 #include "List.H"
