@@ -5,7 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "Gamma.h"
+#include "Gamma.H"
 
 // Note that the functions Gamma and LogGamma are mutually dependent.
 

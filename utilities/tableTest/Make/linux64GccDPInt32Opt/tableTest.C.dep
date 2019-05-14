@@ -3,7 +3,7 @@ tableTest.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalar.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/List.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/OFstream.H \
-Gamma.h \
+Gamma.H \
 table.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/floatScalar.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/doubleScalar.H \
@@ -114,7 +114,7 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/LPtrListIO.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalar.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/List.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/OFstream.H :
-Gamma.h :
+Gamma.H :
 table.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/floatScalar.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/doubleScalar.H :

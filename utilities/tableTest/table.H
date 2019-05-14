@@ -29,10 +29,12 @@ public:
     {
         return T_;
     }
+
     std::vector<std::vector<double> > getY() const
     {
         return Y_;
     }
+    
     double getNsp() const
     {
         return Y_.size();

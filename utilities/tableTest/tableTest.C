@@ -4,7 +4,7 @@
 #include "scalar.H"
 #include "List.H"
 #include "OFstream.H"
-#include "Gamma.h"
+#include "Gamma.H"
 #include "table.H"
 
 using namespace Foam;
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
    size_t nTable = 0;
    while(true)
    {
-      std::ifstream inTableFile("pdfTable_pilot/Zeta_0/flameletTable_"+std::to_string(nTable)+".csv");
+      std::ifstream inTableFile("tables/Zeta_0/flameletTable_"+std::to_string(nTable)+".csv");
       if (!inTableFile) break;
 
       table t_0(inTableFile);
@@ -68,13 +68,13 @@ int main(int argc, char *argv[])
          betaPDFIntegration(Zeta, singleData_, integratedData_);
 
          // output csv file
-         OFstream outTableFile("pdfTable_pilot/Zeta_"+std::to_string(i+1)+"/flameletTable_"+std::to_string(nTable)+".csv");
+         std::ofstream outTableFile("tables/Zeta_"+std::to_string(i+1)+"/flameletTable_"+std::to_string(nTable)+".csv");
          if (!outTableFile) {
             std::cerr << "Unable to save data!\n";
          }
          else
          {
-            outTableFile << firstLine << endl;
+            outTableFile << firstLine << std::endl;
             for (int j = 0; j < Z.size(); j++)
             {
                for(int i = 0; i < integratedData_.size(); i++)
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
                      outTableFile << integratedData_[i][j] ;
                   }  
                }      
-               outTableFile <<endl;
+               outTableFile << std::endl;
             }       
          }
       }  
