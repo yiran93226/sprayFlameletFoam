@@ -3,7 +3,7 @@
 
     const scalarField& ZCells = Z.internalField();
     const scalarField& varZCells = varZ.internalField();
-    const scalarField& chiCells = chi.internalField();
+    const scalarField& YcCells = Yc.internalField();
     const scalarField& pCells = p.internalField();
 
     scalarField& heCells = he.primitiveFieldRef();
@@ -16,7 +16,7 @@
     forAll(ZCells, celli)
     {
         Zeta = Foam::sqrt(varZCells[celli]/Foam::max(ZCells[celli]*(1 - ZCells[celli]), SMALL));
-        flameletTable.find(ZCells[celli], Zeta, chiCells[celli]);
+        flameletTable.find(ZCells[celli], Zeta, YcCells[celli]);
         heCells[celli] = 0.0;
         TCells[celli] = flameletTable.lookupT();
         
@@ -36,7 +36,7 @@
 
     forAll(Z.boundaryField(), patchI)
     {
-        const fvPatchScalarField& pchi = chi.boundaryField()[patchI];
+        const fvPatchScalarField& pYc = Yc.boundaryField()[patchI];
         const fvPatchScalarField& pvarZ = varZ.boundaryField()[patchI];
         const fvPatchScalarField& pZ = Z.boundaryField()[patchI];
         const fvPatchScalarField& pp = p.boundaryField()[patchI];
@@ -48,7 +48,7 @@
         forAll(pZ, facei)
         {
             Zeta = Foam::sqrt(pvarZ[facei]/Foam::max(pZ[facei]*(1 - pZ[facei]), SMALL));
-            flameletTable.find(pZ[facei], Zeta, pchi[facei]);
+            flameletTable.find(pZ[facei], Zeta, pYc[facei]);
             phe[facei] = 0.0;
             pT[facei] = flameletTable.lookupT();
 

@@ -65,14 +65,15 @@ volScalarField varZ
     mesh
 );
 
-volScalarField chi
+Info<< "Reading field Yc" << endl;
+volScalarField Yc
 (
     IOobject
     (
-        "chi",
+        "Yc",
         runTime.timeName(),
         mesh,
-        IOobject::READ_IF_PRESENT,
+        IOobject::MUST_READ,
         IOobject::AUTO_WRITE
     ),
     mesh

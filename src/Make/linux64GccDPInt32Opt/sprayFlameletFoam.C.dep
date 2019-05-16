@@ -27,6 +27,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/setDeltaT.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/rhoEqn.H \
 UEqn.H \
 ZEqn.H \
+YcEqn.H \
 lookupTable.H \
 pEqn.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/parRun.H \
@@ -1061,6 +1062,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/setDeltaT.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/rhoEqn.H :
 UEqn.H :
 ZEqn.H :
+YcEqn.H :
 lookupTable.H :
 pEqn.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/parRun.H :
