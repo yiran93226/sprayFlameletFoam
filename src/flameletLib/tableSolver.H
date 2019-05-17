@@ -13,12 +13,18 @@ public:
     // Getters
 
     // Member functions
-    void find(double Z, double chi);
+    void find(double Z, double Yc);
 
     double lookupT() const
     {
         return tables_[positionH_]->lookupT() * weightH_ +
                 tables_[positionL_]->lookupT() * weightL_;
+    }
+
+    double lookupOmegaYc() const
+    {
+        return tables_[positionH_]->lookupOmegaYc() * weightH_ +
+                tables_[positionL_]->lookupOmegaYc() * weightL_;
     }
 
     double lookupY(size_t i) const

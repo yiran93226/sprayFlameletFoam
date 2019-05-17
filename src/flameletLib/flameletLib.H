@@ -1,22 +1,27 @@
-#ifndef SELECTOR_H
-#define SELECTOR_H
+#ifndef FLAMELETLIB_H
+#define FLAMELETLIB_H
 
-#include <map>
 #include "tableSolver.H"
 
-class selector
+class flameletLib
 {
 public:
     // Constructor
-    selector(std::string type);
+    flameletLib(std::string type);
 
     // Member functions
-    void find(double Z, double Zeta, double chi);
+    void find(double Z, double Zeta, double Yc);
 
     double lookupT() const
     {
         return tableSolvers_[positionH_]->lookupT() * weightH_ +
                 tableSolvers_[positionL_]->lookupT() * weightL_;
+    }
+
+    double lookupOmegaYc() const
+    {
+        return tableSolvers_[positionH_]->lookupOmegaYc() * weightH_ +
+                tableSolvers_[positionL_]->lookupOmegaYc() * weightL_;
     }
 
     double lookupY(size_t i) const
@@ -33,7 +38,7 @@ private:
     size_t positionL_;
     size_t positionH_;
     double Z_;
-    double chi_;
+    double Yc_;
     double minZeta_;
     double maxZeta_;
     double interZeta_;

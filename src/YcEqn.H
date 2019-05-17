@@ -5,6 +5,7 @@
       - fvm::laplacian(turbulence->muEff(), Yc)
      ==
         fvOptions(rho, Yc)
+      + omegaYc
     ); 
 
     YcEqn.relax();
@@ -25,5 +26,5 @@
         << max(varZ).value() << endl;
 
     Info<< "Yc min/max : " << min(Yc).value() << ", "
-    << max(Yc).value() << endl;
+        << max(Yc).value() << endl;
 }

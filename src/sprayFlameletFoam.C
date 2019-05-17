@@ -39,9 +39,7 @@ Description
 #include "pimpleControl.H"
 #include "fvOptions.H"
 
-#include "table.H"
-#include "tableSolver.H"
-#include "selector.H"
+#include "flameletLib.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

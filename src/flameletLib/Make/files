@@ -1,0 +1,5 @@
+flameletLib.C
+tableSolver.C
+table.C
+
+LIB = $(FOAM_USER_LIBBIN)/libflameletLib

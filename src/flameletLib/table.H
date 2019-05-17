@@ -20,9 +20,9 @@ public:
         return Z_;
     }
 
-    std::vector<double> getChi() const
+    std::vector<double> getYc() const
     {
-        return chi_;
+        return Yc_;
     }
 
     std::vector<std::vector<double> > getY() const
@@ -30,7 +30,7 @@ public:
         return Y_;
     }
     
-    double getNsp() const
+    int getNsp() const
     {
         return Y_.size();
     }
@@ -46,14 +46,19 @@ public:
         return T_[positionH_] * weightH_ + T_[positionL_] * weightL_;
     }
 
+    double lookupOmegaYc() const
+    {
+        return omegaYc_[positionH_] * weightH_ + omegaYc_[positionL_] * weightL_;
+    }
+
     double lookupY(size_t i) const
     {
         return Y_[i][positionH_] * weightH_ + Y_[i][positionL_] * weightL_;
     }
 
-    double lookupChi() const
+    double lookupYc() const
     {
-        return interChi_;
+        return interYc_;
     }
 
     void find(double Z);
@@ -65,14 +70,15 @@ private:
 
     // Private member data
     std::vector<double> Z_;
-    std::vector<double> chi_;
+    std::vector<double> Yc_;
+    std::vector<double> omegaYc_;
     std::vector<double> T_;
     std::vector<std::vector<double> > Y_;
 
     double maxZ_;
     double minZ_;
     double interZ_;
-    double interChi_;
+    double interYc_;
     double weightL_;
     double weightH_;
     size_t positionL_;

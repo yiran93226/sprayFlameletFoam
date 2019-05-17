@@ -10,7 +10,7 @@ void tableSolver::collectTables(size_t zetaIndex)
     size_t n=0;
     while(true)
     {
-        std::ifstream flameletTableFile("tablesChi/Zeta_"+std::to_string(zetaIndex)+"/flameletTable_"+std::to_string(n)+".csv");
+        std::ifstream flameletTableFile("tables/Zeta_"+std::to_string(zetaIndex)+"/flameletTable_"+std::to_string(n)+".csv");
         if (!flameletTableFile) break;
         table* tTable = new table(flameletTableFile);
         tables_.push_back(tTable);
@@ -19,46 +19,46 @@ void tableSolver::collectTables(size_t zetaIndex)
     tableNum_ = tables_.size();
 }
 
-void tableSolver::find(double Z, double chi)
+void tableSolver::find(double Z, double Yc)
 {
-    std::vector<double> chis(tableNum_-1);
-    std::map<double, size_t> chiMap;
+    std::vector<double> Ycs(tableNum_-1);
+    std::map<double, size_t> YcMap;
     for (size_t i=0; i<tableNum_; i++)
     {
         tables_[i]->find(Z);
         // The last table is an extiguished one
         if (i!=tableNum_-1)
         {
-            chis[i] = tables_[i]->lookupChi();
-            chiMap.insert({chis[i], i});
+            Ycs[i] = tables_[i]->lookupYc();
+            YcMap.insert({Ycs[i], i});
         }
     }
-    std::sort(chis.begin(), chis.end());
-    double chiH, chiL;
-    if ( (chi > chis[0]) && (chi < chis[tableNum_-2]) )
+    std::sort(Ycs.begin(), Ycs.end());
+    double YcH, YcL;
+    if ( (Yc > Ycs[0]) && (Yc < Ycs[tableNum_-2]) )
     {
         for (size_t i=0; i<tableNum_-1; i++)
         {
-            if (chis[i] > chi)
+            if (Ycs[i] > Yc)
             {
-                chiH = chis[i];
-                chiL = chis[i-1];
+                YcH = Ycs[i];
+                YcL = Ycs[i-1];
                 break;
             }
         }
-        weightL_ = (chiH - chi) / (chiH - chiL);
-        weightH_ = (chi - chiL) / (chiH - chiL);
-        positionL_ = chiMap[chiL];
-        positionH_ = chiMap[chiH];
+        weightL_ = (YcH - Yc) / (YcH - YcL);
+        weightH_ = (Yc - YcL) / (YcH - YcL);
+        positionL_ = YcMap[YcL];
+        positionH_ = YcMap[YcH];
     }
-    else if (chi <= chis[0])
+    else if (Yc <= Ycs[0])
     {
-        chiH = chis[0];
-        chiL = chis[0];
+        YcH = Ycs[0];
+        YcL = Ycs[0];
         weightL_ = 0.5;
         weightH_ = 0.5;
-        positionL_ = chiMap[chiL];
-        positionH_ = chiMap[chiH];
+        positionL_ = YcMap[YcL];
+        positionH_ = YcMap[YcH];
     }
     else
     {

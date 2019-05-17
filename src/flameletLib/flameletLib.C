@@ -1,6 +1,6 @@
-#include "selector.H"
+#include "flameletLib.H"
 
-selector::selector(std::string type)
+flameletLib::flameletLib(std::string type)
 {
     if (type == "RAS")
     {
@@ -20,7 +20,7 @@ selector::selector(std::string type)
     maxZeta_ = Zetas_[num_-1];
 }
 
-void selector::find(double Z, double Zeta, double chi)
+void flameletLib::find(double Z, double Zeta, double Yc)
 {
     if ( (Zeta > minZeta_) && (Zeta < maxZeta_) )
     {
@@ -53,6 +53,6 @@ void selector::find(double Z, double Zeta, double chi)
         weightL_ = 0.5;
         weightH_ = 0.5;
     }
-    tableSolvers_[positionL_]->find(Z, chi);
-    tableSolvers_[positionH_]->find(Z, chi);
+    tableSolvers_[positionL_]->find(Z, Yc);
+    tableSolvers_[positionH_]->find(Z, Yc);
 }

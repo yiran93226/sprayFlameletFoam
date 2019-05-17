@@ -1,0 +1,10 @@
+$(OBJECTS_DIR)/flameletLib.C.dep: \
+flameletLib.C \
+flameletLib.H \
+tableSolver.H \
+table.H \
+
+flameletLib.H :
+tableSolver.H :
+table.H :
+

@@ -8,9 +8,6 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/radiation/lnInclude/radiationModel.H 
 $(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptions.H \
-table.H \
-tableSolver.H \
-selector.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/postProcess.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCaseLists.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/createTime.H \
@@ -1043,9 +1040,6 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/radiation/lnInclude/radiationModel.H 
 $(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptions.H :
-table.H :
-tableSolver.H :
-selector.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/postProcess.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCaseLists.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/createTime.H :

@@ -79,6 +79,19 @@ volScalarField Yc
     mesh
 );
 
+volScalarField omegaYc
+(
+    IOobject
+    (
+        "omegaYc",
+        runTime.timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
 Info<< "\nReading field U\n" << endl;
 volVectorField U
 (
@@ -191,7 +204,7 @@ fields.add(thermo.he());
 // );
 
 Info<< "Reading flamelet tables" << endl;
-selector flameletTable(turbulenceModelType);
+flameletLib flameletTable(turbulenceModelType);
 
 #include "createMRF.H"
 #include "createClouds.H"

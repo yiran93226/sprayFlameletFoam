@@ -1,5 +1,6 @@
 EXE_INC = \
     -I. \
+    -I./flameletLib/lnInclude \
     -I/opt/openfoam6/applications/solvers/lagrangian/reactingParcelFoam \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
@@ -45,4 +46,6 @@ EXE_LIBS = \
     -lfiniteVolume \
     -lfvOptions \
     -lmeshTools \
-    -lsampling
+    -lsampling \
+    -L$(FOAM_USER_LIBBIN) \
+    -lflameletLib

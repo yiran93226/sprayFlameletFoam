@@ -1,0 +1,4 @@
+SOURCE = \
+flameletLib.C \
+tableSolver.C \
+table.C 

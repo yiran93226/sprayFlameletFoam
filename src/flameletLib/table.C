@@ -45,7 +45,7 @@ void table::find(double Z)
         weightL_ = 0.5;
         weightH_ = 0.5;
     }
-    interChi_ = chi_[positionH_] * weightH_ + chi_[positionL_] * weightL_;
+    interYc_ = Yc_[positionH_] * weightH_ + Yc_[positionL_] * weightL_;
 }
 
 
@@ -54,19 +54,21 @@ void table::read()
     std::string line, str;
     std::getline(tableFile_, firstLine_); // The first line
     nColumn_ = std::count(firstLine_.begin(), firstLine_.end(), ',') + 1;
-    Y_.resize(nColumn_-3);
+    Y_.resize(nColumn_-4);
     while(std::getline(tableFile_,line))
     {
         size_t n = 0;
         std::istringstream buffer(line);
         while(std::getline(buffer, str, ',')) // Comma separated values
         {
-            if(n > 2)
-                Y_[n-3].push_back(std::stod(str));
+            if(n > 3)
+                Y_[n-4].push_back(std::stod(str));
             else if(n == 0)
                 Z_.push_back(std::stod(str));
             else if(n == 1)
-                chi_.push_back(std::stod(str));
+                Yc_.push_back(std::stod(str));
+            else if(n == 2)
+                omegaYc_.push_back(std::stod(str));
             else
                 T_.push_back(std::stod(str));
             n++;
