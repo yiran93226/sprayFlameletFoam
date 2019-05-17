@@ -8,6 +8,7 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/radiation/lnInclude/radiationModel.H 
 $(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptions.H \
+./flameletLib/lnInclude/flameletLib.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/postProcess.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCaseLists.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/createTime.H \
@@ -80,6 +81,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionConvergenceControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionCorrectorConvergenceControl.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControlI.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptionList.H \
+./flameletLib/lnInclude/tableSolver.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addRegionOption.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addFunctionObjectOptions.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCase.H \
@@ -249,6 +251,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOption.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricField.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/geometricOneField.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptionListTemplates.C \
+./flameletLib/lnInclude/table.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addDictOption.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPstream.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DynamicList.H \
@@ -1040,6 +1043,7 @@ $(WM_PROJECT_DIR)/src/thermophysicalModels/radiation/lnInclude/radiationModel.H 
 $(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptions.H :
+./flameletLib/lnInclude/flameletLib.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/postProcess.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCaseLists.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/createTime.H :
@@ -1112,6 +1116,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionConvergenceControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/singleRegionCorrectorConvergenceControl.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControlI.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptionList.H :
+./flameletLib/lnInclude/tableSolver.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addRegionOption.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addFunctionObjectOptions.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCase.H :
@@ -1281,6 +1286,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOption.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricField.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/geometricOneField.H :
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvOptionListTemplates.C :
+./flameletLib/lnInclude/table.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addDictOption.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/UPstream.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/DynamicList.H :

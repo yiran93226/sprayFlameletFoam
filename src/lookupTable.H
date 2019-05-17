@@ -8,6 +8,7 @@
 
     scalarField& heCells = he.primitiveFieldRef();
     scalarField& TCells = T.primitiveFieldRef();
+    scalarField& omegaYcCells = omegaYc.primitiveFieldRef();
 
     scalar Zeta = 0.0;
     // double y = 0.0;
@@ -19,7 +20,7 @@
         flameletTable.find(ZCells[celli], Zeta, YcCells[celli]);
         heCells[celli] = 0.0;
         TCells[celli] = flameletTable.lookupT();
-        
+        omegaYcCells[celli] = flameletTable.lookupOmegaYc();
         // T as a function of y coordinate -- test
         // y = mesh.C()[celli][1];
         // tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2*6))
@@ -107,6 +108,7 @@
         << max(Y[oxidizerIndex]).value() << endl;
     Info<< "Sum Y min/max : " << min(Yt).value() << ", "
         << max(Yt).value() << endl;
-    // flameletTable.find(0.271, 0.0, 0.0);
+    // flameletTable.find(0.271, 0.0, 0.5);
     // Info<< "Find Z0.271 TEMPERATURE: " << flameletTable.lookupT() << endl;
+    // Info<< "Find Z0.271 omegaYc: " << flameletTable.lookupOmegaYc() << endl;
 }
