@@ -108,7 +108,9 @@
         << max(Y[oxidizerIndex]).value() << endl;
     Info<< "Sum Y min/max : " << min(Yt).value() << ", "
         << max(Yt).value() << endl;
-    // flameletTable.find(0.271, 0.0, 0.5);
-    // Info<< "Find Z0.271 TEMPERATURE: " << flameletTable.lookupT() << endl;
-    // Info<< "Find Z0.271 omegaYc: " << flameletTable.lookupOmegaYc() << endl;
+    Info<< "OmegaYc min/max : " << min(omegaYc).value() << ", "
+        << max(omegaYc).value() << endl;
+    // flameletTable.find(0.1, 0.0, 0.01);
+    // Info<< "Find Z0.1 TEMPERATURE: " << flameletTable.lookupT() << endl;
+    // Info<< "Find Z0.1 omegaYc: " << flameletTable.lookupOmegaYc() << endl;
 }

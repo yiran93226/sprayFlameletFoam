@@ -15,6 +15,15 @@ public:
     // Member functions
     void find(double Z, double Yc);
 
+    void bdSet(double Z)
+    {
+        tables_[0]->find(Z);
+        positionL_ = 0;
+        positionH_ = 0;
+        weightH_ = 0.5;
+        weightL_ = 0.5;
+    }
+
     double lookupT() const
     {
         return tables_[positionH_]->lookupT() * weightH_ +

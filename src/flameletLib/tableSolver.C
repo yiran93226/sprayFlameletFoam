@@ -53,10 +53,14 @@ void tableSolver::find(double Z, double Yc)
     }
     else if (Yc <= Ycs[0])
     {
-        weightL_ = 0.5;
-        weightH_ = 0.5;
+        // weightL_ = 0.5;
+        // weightH_ = 0.5;
+        // positionL_ = tableNum_-1;
+        // positionH_ = tableNum_-1;
+        weightL_ = (Ycs[0] - Yc) / (Ycs[0] - 0);
+        weightH_ = (Yc - 0) / (Ycs[0] - 0);
         positionL_ = tableNum_-1;
-        positionH_ = tableNum_-1;
+        positionH_ = tableNum_-2;
     }
     else
     {

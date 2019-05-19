@@ -53,6 +53,15 @@ void flameletLib::find(double Z, double Zeta, double Yc)
         weightL_ = 0.5;
         weightH_ = 0.5;
     }
-    tableSolvers_[positionL_]->find(Z, Yc);
-    tableSolvers_[positionH_]->find(Z, Yc);
+
+    if (Z>1e-6 && Z<1-1e-6)
+    {
+        tableSolvers_[positionL_]->find(Z, Yc);
+        tableSolvers_[positionH_]->find(Z, Yc);
+    }
+    else
+    {
+        tableSolvers_[positionL_]->bdSet(Z);
+        tableSolvers_[positionH_]->bdSet(Z);
+    }
 }
