@@ -12,6 +12,11 @@ public:
     // Member functions
     void find(double Z, double Zeta, double Yc);
 
+    size_t nsp() const
+    {
+        return tableSolvers_[0]->nsp();
+    }
+
     double lookupT() const
     {
         return tableSolvers_[positionH_]->lookupT() * weightH_ +

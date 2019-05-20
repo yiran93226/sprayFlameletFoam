@@ -2,6 +2,7 @@
 #define TABLESOLVER_H
 
 #include <map>
+#include <cmath>
 #include "table.H"
 
 class tableSolver
@@ -15,6 +16,11 @@ public:
     // Member functions
     void find(double Z, double Yc);
 
+    size_t nsp() const
+    {
+        return nsp_;
+    }
+
     void bdSet(double Z)
     {
         tables_[0]->find(Z);
@@ -26,25 +32,35 @@ public:
 
     double lookupT() const
     {
-        return tables_[positionH_]->lookupT() * weightH_ +
-                tables_[positionL_]->lookupT() * weightL_;
+        if (!useExp_) {
+            return tables_[positionH_]->lookupT() * weightH_ +
+                    tables_[positionL_]->lookupT() * weightL_;
+        }
+        else {
+            return expT_;
+        }
     }
 
     double lookupOmegaYc() const
     {
-        return tables_[positionH_]->lookupOmegaYc() * weightH_ +
-                tables_[positionL_]->lookupOmegaYc() * weightL_;
+        if (!useExp_) {
+            return tables_[positionH_]->lookupOmegaYc() * weightH_ +
+                    tables_[positionL_]->lookupOmegaYc() * weightL_;
+        }
+        else {
+            return expOmegaYc_;
+        }
     }
 
     double lookupY(size_t i) const
     {
-        return tables_[positionH_]->lookupY(i) * weightH_ + 
-                tables_[positionL_]->lookupY(i) * weightL_;
-    }
-
-    bool extrapol() const
-    {
-        return positionL_ == tableNum_-1;
+        if (!useExp_) {
+            return tables_[positionH_]->lookupY(i) * weightH_ +
+                    tables_[positionL_]->lookupY(i) * weightL_;
+        }
+        else {
+            return expY_[i];
+        }
     }
 
 private:
@@ -57,8 +73,14 @@ private:
     size_t positionL_;
     size_t positionH_;
 
+    size_t nsp_;
     size_t tableNum_;
     std::vector<table*> tables_;
+
+    bool useExp_;
+    double expT_;
+    double expOmegaYc_;
+    std::vector<double> expY_;
 };
 
 #endif
