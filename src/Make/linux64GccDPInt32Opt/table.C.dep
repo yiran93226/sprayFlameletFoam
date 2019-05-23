@@ -1,6 +1,0 @@
-$(OBJECTS_DIR)/table.C.dep: \
-table.C \
-table.H \
-
-table.H :
-

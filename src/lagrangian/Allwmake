@@ -1,0 +1,4 @@
+#!/bin/sh
+wmake intermediate
+wmake turbulence
+wmake spray
