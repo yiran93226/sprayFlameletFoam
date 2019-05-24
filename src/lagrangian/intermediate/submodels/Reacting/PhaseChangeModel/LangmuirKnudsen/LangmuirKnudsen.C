@@ -167,6 +167,16 @@ void Foam::LangmuirKnudsen<CloudType>::calculate
     // construct carrier phase species volume fractions for cell, celli
     const scalarField Xc(calcXc(celli));
 
+    // carrier thermo properties
+    scalar muc = 0.0;
+    scalar Wc = 0.0;
+    forAll(this->owner().thermo().carrier().Y(), i)
+    {
+        scalar Yc = this->owner().thermo().carrier().Y()[i][celli];
+        muc += Yc*this->owner().thermo().carrier().mu(i, pc, Ts);
+        Wc += Xc[i]*this->owner().thermo().carrier().W(i);
+    }
+
     // calculate mass transfer of each specie in liquid
     forAll(activeLiquids_, i)
     {
@@ -175,6 +185,15 @@ void Foam::LangmuirKnudsen<CloudType>::calculate
 
         // vapour diffusivity [m2/s]
         const scalar Dab = liquids_.properties()[lid].D(pc, Ts);
+
+        // liquid density [kg/m3]
+        const scalar rhod = liquids_.properties()[lid].rho(pc, Ts);
+
+        // mass [kg]
+        const scalar md = rhod*d*d*d*pi/6.0;
+
+        // time constant [s]
+        const scalar taud = rhod*sqr(d + rootVSmall)/(18.0*muc);
 
         // saturation pressure for species i [pa]
         // - carrier phase pressure assumed equal to the liquid vapour pressure
@@ -190,20 +209,39 @@ void Foam::LangmuirKnudsen<CloudType>::calculate
         // Sherwood number
         const scalar Sh = this->Sh(Re, Sc);
 
-        // mass transfer coefficient [m/s]
-        const scalar kc = Sh*Dab/(d + rootVSmall);
+        // surface molar fraction - Raoult's Law
+        const scalar Xs = X[lid]*pSat/pc;
 
-        // vapour concentration at surface [kmol/m3] at film temperature
-        const scalar Cs = pSat/(RR*Ts);
+        // Knudsen layer thickness [m]
+        const scalar Lk = muc * sqrt(2.0*pi*T*RR/liquids_.properties()[lid].W()) / (Sc*pc);
 
-        // vapour concentration in bulk gas [kmol/m3] at film temperature
-        const scalar Cinf = Xc[gid]*pc/(RR*Ts);
+        // iterative method
+        scalar mdot = 0.0;
+        for (label j=0; j<50; j++)
+        {
+            scalar mdotDash = mdot;
 
-        // molar flux of vapour [kmol/m2/s]
-        const scalar Ni = max(kc*(Cs - Cinf), 0.0);
+            // non-dimensional evaporation parameter
+            scalar beta = 1.5*Pr*taud * (mdot/md);
 
-        // mass transfer [kg]
-        dMassPC[lid] += Ni*pi*sqr(d)*liquids_.properties()[lid].W()*dt;
+            // vapor mole fraction at the droplet surface
+            scalar Xsneq = Xs - 2.0*Lk*beta/d;
+
+            // vapor mass fraction at the droplet surface
+            scalar Ysneq = Xsneq*liquids_.properties()[lid].W()/Wc;
+
+            // vapor mass fraction in bulk gas
+            scalar Yv = this->owner().thermo().carrier().Y()[gid][celli];
+
+            // Spalding transfer number for mass
+            scalar BM = (Ysneq - Yv) / max(small, 1.0 - Ysneq);
+
+            mdot = Sh/(3.0*Sc) * (md/taud) * log(1.0 + BM);
+
+            if (mag(mdot - mdotDash)/max(small, mdotDash) < 1e-4) break;
+        }
+
+        dMassPC[lid] += mdot * dt;
     }
 }
 
