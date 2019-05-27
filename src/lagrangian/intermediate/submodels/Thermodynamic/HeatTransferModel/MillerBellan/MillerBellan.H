@@ -25,7 +25,7 @@ Class
     Foam::MillerBellan
 
 Description
-    The Ranz-Marshall correlation for heat transfer
+    The Miller-Bellan correlation for heat transfer
 
 \*---------------------------------------------------------------------------*/
 

@@ -61,7 +61,7 @@ Foam::scalar Foam::MillerBellan<CloudType>::Nu
     const scalar Pr
 ) const
 {
-    return 2.0 + 0.552*sqrt(Re)*cbrt(Pr);
+    return 2.0 + 0.6*sqrt(Re)*cbrt(Pr);
 }
 
 template<class CloudType>
