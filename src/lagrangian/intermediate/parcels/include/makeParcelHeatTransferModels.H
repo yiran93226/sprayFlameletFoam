@@ -30,6 +30,7 @@ License
 
 #include "NoHeatTransfer.H"
 #include "RanzMarshall.H"
+#include "MillerBellan.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -38,7 +39,8 @@ License
     makeHeatTransferModel(CloudType);                                          \
                                                                                \
     makeHeatTransferModelType(NoHeatTransfer, CloudType);                      \
-    makeHeatTransferModelType(RanzMarshall, CloudType);
+    makeHeatTransferModelType(RanzMarshall, CloudType);                        \
+    makeHeatTransferModelType(MillerBellan, CloudType);
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -22,15 +22,15 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::NoHeatTransfer
+    Foam::MillerBellan
 
 Description
-    Dummy heat transfer model for 'none'
+    The Ranz-Marshall correlation for heat transfer
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef NoHeatTransfer_H
-#define NoHeatTransfer_H
+#ifndef MillerBellan_H
+#define MillerBellan_H
 
 #include "HeatTransferModel.H"
 
@@ -40,66 +40,67 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                       Class NoHeatTransfer Declaration
+                         Class MillerBellan Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class CloudType>
-class NoHeatTransfer
+class MillerBellan
 :
     public HeatTransferModel<CloudType>
 {
+
 public:
 
     //- Runtime type information
-    TypeName("none");
+    TypeName("MillerBellan");
 
 
     // Constructors
 
         //- Construct from dictionary
-        NoHeatTransfer(const dictionary&, CloudType& owner);
+        MillerBellan(const dictionary& dict, CloudType& cloud);
 
         //- Construct copy
-        NoHeatTransfer(const NoHeatTransfer<CloudType>& im);
+        MillerBellan(const MillerBellan<CloudType>& im);
 
         //- Construct and return a clone
         virtual autoPtr<HeatTransferModel<CloudType>> clone() const
         {
             return autoPtr<HeatTransferModel<CloudType>>
             (
-                new NoHeatTransfer<CloudType>(*this)
+                new MillerBellan<CloudType>(*this)
             );
         }
 
 
     //- Destructor
-    virtual ~NoHeatTransfer();
+    virtual ~MillerBellan();
 
 
     // Member Functions
 
-        //- Flag to indicate whether model activates heat transfer model
-        virtual bool active() const;
+        // Evaluation
 
-        //- Nusselt number
-        virtual scalar Nu(const scalar, const scalar) const;
+            //- Nusselt number
+            virtual scalar Nu
+            (
+                const scalar Re,
+                const scalar Pr
+            ) const;
 
-        //- Prandtl number
-        virtual scalar Pr() const;
-
-        //- bcp
-        virtual scalar bcp
-        (
-            const scalar dp,
-            const scalar Re,
-            const scalar Pr,
-            const scalar kappa,
-            const scalar NCpW,
-            const scalar As,
-            const scalar m,
-            const scalar Cp_,
-            const scalar mtc
-        ) const;
+            //- bcp
+            virtual scalar bcp
+            (
+                const scalar dp,
+                const scalar Re,
+                const scalar Pr,
+                const scalar kappa,
+                const scalar NCpW,
+                const scalar As,
+                const scalar m,
+                const scalar Cp_,
+                const scalar mtc
+            ) const;
 };
 
 
@@ -110,7 +111,7 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #ifdef NoRepository
-    #include "NoHeatTransfer.C"
+    #include "MillerBellan.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

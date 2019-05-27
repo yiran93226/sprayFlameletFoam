@@ -53,6 +53,7 @@ lnInclude/NoSurfaceFilm.H \
 lnInclude/ThermoSurfaceFilm.H \
 lnInclude/NoHeatTransfer.H \
 lnInclude/RanzMarshall.H \
+lnInclude/MillerBellan.H \
 lnInclude/NoComposition.H \
 lnInclude/SinglePhaseMixture.H \
 lnInclude/NoPhaseChange.H \
@@ -159,6 +160,7 @@ lnInclude/ThermoSurfaceFilm.C \
 lnInclude/HeatTransferModel.H \
 lnInclude/NoHeatTransfer.C \
 lnInclude/RanzMarshall.C \
+lnInclude/MillerBellan.C \
 lnInclude/CompositionModel.H \
 lnInclude/NoComposition.C \
 lnInclude/SinglePhaseMixture.C \
@@ -1032,6 +1034,7 @@ lnInclude/NoSurfaceFilm.H :
 lnInclude/ThermoSurfaceFilm.H :
 lnInclude/NoHeatTransfer.H :
 lnInclude/RanzMarshall.H :
+lnInclude/MillerBellan.H :
 lnInclude/NoComposition.H :
 lnInclude/SinglePhaseMixture.H :
 lnInclude/NoPhaseChange.H :
@@ -1138,6 +1141,7 @@ lnInclude/ThermoSurfaceFilm.C :
 lnInclude/HeatTransferModel.H :
 lnInclude/NoHeatTransfer.C :
 lnInclude/RanzMarshall.C :
+lnInclude/MillerBellan.C :
 lnInclude/CompositionModel.H :
 lnInclude/NoComposition.C :
 lnInclude/SinglePhaseMixture.C :

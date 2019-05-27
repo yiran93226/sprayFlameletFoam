@@ -23,12 +23,12 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "RanzMarshall.H"
+#include "MillerBellan.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class CloudType>
-Foam::RanzMarshall<CloudType>::RanzMarshall
+Foam::MillerBellan<CloudType>::MillerBellan
 (
     const dictionary& dict,
     CloudType& cloud
@@ -39,7 +39,7 @@ Foam::RanzMarshall<CloudType>::RanzMarshall
 
 
 template<class CloudType>
-Foam::RanzMarshall<CloudType>::RanzMarshall(const RanzMarshall<CloudType>& htm)
+Foam::MillerBellan<CloudType>::MillerBellan(const MillerBellan<CloudType>& htm)
 :
     HeatTransferModel<CloudType>(htm)
 {}
@@ -48,24 +48,24 @@ Foam::RanzMarshall<CloudType>::RanzMarshall(const RanzMarshall<CloudType>& htm)
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 template<class CloudType>
-Foam::RanzMarshall<CloudType>::~RanzMarshall()
+Foam::MillerBellan<CloudType>::~MillerBellan()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class CloudType>
-Foam::scalar Foam::RanzMarshall<CloudType>::Nu
+Foam::scalar Foam::MillerBellan<CloudType>::Nu
 (
     const scalar Re,
     const scalar Pr
 ) const
 {
-    return 2.0 + 0.6*sqrt(Re)*cbrt(Pr);
+    return 2.0 + 0.552*sqrt(Re)*cbrt(Pr);
 }
 
 template<class CloudType>
-Foam::scalar Foam::RanzMarshall<CloudType>::bcp
+Foam::scalar Foam::MillerBellan<CloudType>::bcp
 (
     const scalar dp,
     const scalar Re,
@@ -78,8 +78,9 @@ Foam::scalar Foam::RanzMarshall<CloudType>::bcp
     const scalar mtc
 ) const
 {
-    const scalar htc = this->htc(dp, Re, Pr, kappa, NCpW);
+    const scalar Nu = this->Nu(Re, Pr);
 
-    return htc*As/(m*Cp_);
+    return Nu/(3.0*Pr)*mtc;
 }
+
 // ************************************************************************* //

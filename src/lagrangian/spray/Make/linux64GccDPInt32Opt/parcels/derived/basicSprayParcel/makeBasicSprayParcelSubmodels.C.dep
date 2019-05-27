@@ -62,6 +62,7 @@ lnInclude/ORourkeCollision.H \
 lnInclude/TrajectoryCollision.H \
 ../intermediate/lnInclude/NoHeatTransfer.H \
 ../intermediate/lnInclude/RanzMarshall.H \
+../intermediate/lnInclude/MillerBellan.H \
 ../intermediate/lnInclude/NoComposition.H \
 ../intermediate/lnInclude/SinglePhaseMixture.H \
 ../intermediate/lnInclude/NoPhaseChange.H \
@@ -189,6 +190,7 @@ lnInclude/TrajectoryCollision.C \
 ../intermediate/lnInclude/HeatTransferModel.H \
 ../intermediate/lnInclude/NoHeatTransfer.C \
 ../intermediate/lnInclude/RanzMarshall.C \
+../intermediate/lnInclude/MillerBellan.C \
 ../intermediate/lnInclude/CompositionModel.H \
 ../intermediate/lnInclude/NoComposition.C \
 ../intermediate/lnInclude/SinglePhaseMixture.C \
@@ -1103,6 +1105,7 @@ lnInclude/ORourkeCollision.H :
 lnInclude/TrajectoryCollision.H :
 ../intermediate/lnInclude/NoHeatTransfer.H :
 ../intermediate/lnInclude/RanzMarshall.H :
+../intermediate/lnInclude/MillerBellan.H :
 ../intermediate/lnInclude/NoComposition.H :
 ../intermediate/lnInclude/SinglePhaseMixture.H :
 ../intermediate/lnInclude/NoPhaseChange.H :
@@ -1230,6 +1233,7 @@ lnInclude/TrajectoryCollision.C :
 ../intermediate/lnInclude/HeatTransferModel.H :
 ../intermediate/lnInclude/NoHeatTransfer.C :
 ../intermediate/lnInclude/RanzMarshall.C :
+../intermediate/lnInclude/MillerBellan.C :
 ../intermediate/lnInclude/CompositionModel.H :
 ../intermediate/lnInclude/NoComposition.C :
 ../intermediate/lnInclude/SinglePhaseMixture.C :

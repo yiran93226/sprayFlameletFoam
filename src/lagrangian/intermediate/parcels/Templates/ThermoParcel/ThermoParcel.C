@@ -330,11 +330,8 @@ Foam::scalar Foam::ThermoParcel<ParcelType>::calcHeatTransfer
     const scalar V = this->volume(d);
     const scalar m = rho*V;
 
-    // Calc heat transfer coefficient
-    scalar Nu = cloud.heatTransfer().Nu(Re, Pr);
-
     // Calculate the integration coefficients
-    const scalar bcp = Nu/(3.0*Pr)*mtc;
+    const scalar bcp = cloud.heatTransfer().bcp(d, Re, Pr, kappa, NCpW, As, m, Cp_, mtc);
     const scalar acp = bcp*td.Tc();
     scalar ancp = Sh;
     if (cloud.radiation())

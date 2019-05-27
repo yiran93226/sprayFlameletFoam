@@ -49,6 +49,7 @@ lnInclude/NoSurfaceFilm.H \
 lnInclude/ThermoSurfaceFilm.H \
 lnInclude/NoHeatTransfer.H \
 lnInclude/RanzMarshall.H \
+lnInclude/MillerBellan.H \
 lnInclude/KinematicCloud.H \
 lnInclude/thermoCloud.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H \
@@ -129,6 +130,7 @@ lnInclude/ThermoSurfaceFilm.C \
 lnInclude/HeatTransferModel.H \
 lnInclude/NoHeatTransfer.C \
 lnInclude/RanzMarshall.C \
+lnInclude/MillerBellan.C \
 $(WM_PROJECT_DIR)/src/lagrangian/basic/lnInclude/Cloud.H \
 lnInclude/kinematicCloud.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOdictionary.H \
@@ -998,6 +1000,7 @@ lnInclude/NoSurfaceFilm.H :
 lnInclude/ThermoSurfaceFilm.H :
 lnInclude/NoHeatTransfer.H :
 lnInclude/RanzMarshall.H :
+lnInclude/MillerBellan.H :
 lnInclude/KinematicCloud.H :
 lnInclude/thermoCloud.H :
 $(WM_PROJECT_DIR)/src/thermophysicalModels/SLGThermo/lnInclude/SLGThermo.H :
@@ -1078,6 +1081,7 @@ lnInclude/ThermoSurfaceFilm.C :
 lnInclude/HeatTransferModel.H :
 lnInclude/NoHeatTransfer.C :
 lnInclude/RanzMarshall.C :
+lnInclude/MillerBellan.C :
 $(WM_PROJECT_DIR)/src/lagrangian/basic/lnInclude/Cloud.H :
 lnInclude/kinematicCloud.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/IOdictionary.H :

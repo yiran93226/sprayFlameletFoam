@@ -82,4 +82,20 @@ Foam::scalar Foam::NoHeatTransfer<CloudType>::Pr() const
 }
 
 
+template<class CloudType>
+Foam::scalar Foam::NoHeatTransfer<CloudType>::bcp
+(
+    const scalar dp,
+    const scalar Re,
+    const scalar Pr,
+    const scalar kappa,
+    const scalar NCpW,
+    const scalar As,
+    const scalar m,
+    const scalar Cp_,
+    const scalar mtc
+) const
+{
+    return 0.0;
+}
 // ************************************************************************* //

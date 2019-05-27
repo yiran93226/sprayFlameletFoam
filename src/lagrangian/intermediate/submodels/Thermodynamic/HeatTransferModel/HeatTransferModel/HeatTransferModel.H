@@ -138,6 +138,20 @@ public:
                 const scalar kappa,
                 const scalar NCpW
             ) const;
+
+            //- bcp
+            virtual scalar bcp
+            (
+                const scalar dp,
+                const scalar Re,
+                const scalar Pr,
+                const scalar kappa,
+                const scalar NCpW,
+                const scalar As,
+                const scalar m,
+                const scalar Cp_,
+                const scalar mtc
+            ) const = 0;
 };
 
 
