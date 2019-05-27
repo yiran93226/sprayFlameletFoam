@@ -54,7 +54,8 @@ void Foam::ReactingParcel<ParcelType>::calcPhaseChange
     scalar& Sh,
     scalar& N,
     scalar& NCpW,
-    scalarField& Cs
+    scalarField& Cs,
+    scalar& mtc
 )
 {
     typedef typename TrackCloudType::reactingCloudType reactingCloudType;
@@ -96,7 +97,9 @@ void Foam::ReactingParcel<ParcelType>::calcPhaseChange
         td.pc(),
         td.Tc(),
         X,
-        dMassPC
+        mass,
+        dMassPC,
+        mtc
     );
 
     // Limit phase change mass by availability of each specie
@@ -446,6 +449,9 @@ void Foam::ReactingParcel<ParcelType>::calc
     // Surface concentrations of emitted species
     scalarField Cs(composition.carrier().species().size(), 0.0);
 
+    // evaporation parameter
+    scalar mtc = 0.0;
+
     // Calc mass and enthalpy transfer due to phase change
     calcPhaseChange
     (
@@ -466,7 +472,8 @@ void Foam::ReactingParcel<ParcelType>::calc
         Sh,
         Ne,
         NCpW,
-        Cs
+        Cs,
+        mtc
     );
 
 
@@ -538,6 +545,7 @@ void Foam::ReactingParcel<ParcelType>::calc
             kappas,
             NCpW,
             Sh,
+            mtc,
             dhsTrans,
             Sph
         );

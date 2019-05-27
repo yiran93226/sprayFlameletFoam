@@ -271,6 +271,23 @@ protected:
             scalar& Sph                // linearised heat transfer coefficient
         );
 
+        //- Calculate new particle temperature
+        template<class TrackCloudType>
+        scalar calcHeatTransfer
+        (
+            TrackCloudType& cloud,
+            trackingData& td,
+            const scalar dt,           // timestep
+            const scalar Re,           // Reynolds number
+            const scalar Pr,           // Prandtl number - surface
+            const scalar kappa,        // Thermal conductivity - surface
+            const scalar NCpW,         // Sum of N*Cp*W of emission species
+            const scalar Sh,           // explicit particle enthalpy source
+            const scalar mtc,          // Phase change parameter
+            scalar& dhsTrans,          // sensible enthalpy transfer to carrier
+            scalar& Sph                // linearised heat transfer coefficient
+        );
+
 
 public:
 

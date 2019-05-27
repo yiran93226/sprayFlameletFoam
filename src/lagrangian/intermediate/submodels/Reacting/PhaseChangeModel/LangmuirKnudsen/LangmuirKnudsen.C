@@ -142,7 +142,9 @@ void Foam::LangmuirKnudsen<CloudType>::calculate
     const scalar pc,
     const scalar Tc,
     const scalarField& X,
-    scalarField& dMassPC
+    const scalar mass,
+    scalarField& dMassPC,
+    scalar& mtc
 ) const
 {
     // immediately evaporate mass that has reached critical condition
@@ -170,59 +172,80 @@ void Foam::LangmuirKnudsen<CloudType>::calculate
     // carrier thermo properties
     scalar muc = 0.0;
     scalar Wc = 0.0;
+    scalar Cpc = 0.0;
     forAll(this->owner().thermo().carrier().Y(), i)
     {
         scalar Yc = this->owner().thermo().carrier().Y()[i][celli];
         muc += Yc*this->owner().thermo().carrier().mu(i, pc, Ts);
         Wc += Xc[i]*this->owner().thermo().carrier().W(i);
+        Cpc += Yc*this->owner().thermo().carrier().Cp(i, pc, Ts);
     }
 
-    // calculate mass transfer of each specie in liquid
+    const scalar md = mass;
+
+    const scalar rhod = md*6.0/(pi*d*d*d);
+
+    // time constant [s]
+    const scalar taud = rhod*sqr(d + rootVSmall)/(18.0*muc);
+
+    // calculate liquid heat capacity
+    scalar Cpd = 0.0;
+
+    // liquid molar weight
+    scalar Wd = 0.0;
+
     forAll(activeLiquids_, i)
     {
-        const label gid = liqToCarrierMap_[i];
         const label lid = liqToLiqMap_[i];
+        Wd += X[lid]*liquids_.properties()[lid].W();
+    }
 
-        // vapour diffusivity [m2/s]
-        const scalar Dab = liquids_.properties()[lid].D(pc, Ts);
+    forAll(activeLiquids_, i)
+    {
+        const label lid = liqToLiqMap_[i];
+        Cpd += liquids_.properties()[lid].Cp(pc, T)*X[lid]*liquids_.properties()[lid].W()/Wd;
+    }
 
-        // liquid density [kg/m3]
-        const scalar rhod = liquids_.properties()[lid].rho(pc, Ts);
+    scalar beta = 0.0;
 
-        // mass [kg]
-        const scalar md = rhod*d*d*d*pi/6.0;
+    scalar mdot = 0.0;
 
-        // time constant [s]
-        const scalar taud = rhod*sqr(d + rootVSmall)/(18.0*muc);
+    // iterative method
+    for (label j=0; j<50; j++)
+    {
+        scalar mdotDash = mdot;
 
-        // saturation pressure for species i [pa]
-        // - carrier phase pressure assumed equal to the liquid vapour pressure
-        //   close to the surface
-        // NOTE: if pSat > pc then particle is superheated
-        // calculated evaporation rate will be greater than that of a particle
-        // at boiling point, but this is not a boiling model
-        const scalar pSat = liquids_.properties()[lid].pv(pc, T);
+        // non-dimensional evaporation parameter
+        beta = 1.5*Pr*taud * (mdot/md);
 
-        // Schmidt number
-        const scalar Sc = nu/(Dab + rootVSmall);
-
-        // Sherwood number
-        const scalar Sh = this->Sh(Re, Sc);
-
-        // surface molar fraction - Raoult's Law
-        const scalar Xs = X[lid]*pSat/pc;
-
-        // Knudsen layer thickness [m]
-        const scalar Lk = muc * sqrt(2.0*pi*T*RR/liquids_.properties()[lid].W()) / (Sc*pc);
-
-        // iterative method
-        scalar mdot = 0.0;
-        for (label j=0; j<50; j++)
+        // calculate mass transfer of each specie in liquid
+        forAll(activeLiquids_, i)
         {
-            scalar mdotDash = mdot;
+            const label gid = liqToCarrierMap_[i];
+            const label lid = liqToLiqMap_[i];
 
-            // non-dimensional evaporation parameter
-            scalar beta = 1.5*Pr*taud * (mdot/md);
+            // vapour diffusivity [m2/s]
+            const scalar Dab = liquids_.properties()[lid].D(pc, Ts);
+
+            // saturation pressure for species i [pa]
+            // - carrier phase pressure assumed equal to the liquid vapour pressure
+            //   close to the surface
+            // NOTE: if pSat > pc then particle is superheated
+            // calculated evaporation rate will be greater than that of a particle
+            // at boiling point, but this is not a boiling model
+            const scalar pSat = liquids_.properties()[lid].pv(pc, T);
+
+            // Schmidt number
+            const scalar Sc = nu/(Dab + rootVSmall);
+
+            // Sherwood number
+            const scalar Sh = this->Sh(Re, Sc);
+
+            // surface molar fraction - Raoult's Law
+            const scalar Xs = X[lid]*pSat/pc;
+
+            // Knudsen layer thickness [m]
+            const scalar Lk = muc * sqrt(2.0*pi*T*RR/liquids_.properties()[lid].W()) / (Sc*pc);
 
             // vapor mole fraction at the droplet surface
             scalar Xsneq = Xs - 2.0*Lk*beta/d;
@@ -236,13 +259,17 @@ void Foam::LangmuirKnudsen<CloudType>::calculate
             // Spalding transfer number for mass
             scalar BM = (Ysneq - Yv) / max(small, 1.0 - Ysneq);
 
-            mdot = Sh/(3.0*Sc) * (md/taud) * log(1.0 + BM);
-
-            if (mag(mdot - mdotDash)/max(small, mdotDash) < 1e-4) break;
+            dMassPC[lid] = Sh/(3.0*Sc) * (md/taud) * log(1.0 + BM) * dt;
         }
 
-        dMassPC[lid] += mdot * dt;
+        mdot = sum(dMassPC) / dt;
+
+        if (mag(mdot - mdotDash)/max(small, mdotDash) < 1e-4) break;
     }
+
+    beta = max(small, beta);
+
+    mtc = (( beta / (exp(beta) - 1.0) ) / taud) * (Cpc / Cpd);
 }
 
 

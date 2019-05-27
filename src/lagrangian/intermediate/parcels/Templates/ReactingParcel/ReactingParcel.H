@@ -198,7 +198,8 @@ protected:
             scalar& Sh,                // explicit parcel enthalpy source
             scalar& N,                 // flux of species emitted from parcel
             scalar& NCpW,              // sum of N*Cp*W of emission species
-            scalarField& Cs            // carrier conc. of emission species
+            scalarField& Cs,           // carrier conc. of emission species
+            scalar& mtc
         );
 
         //- Update mass fraction

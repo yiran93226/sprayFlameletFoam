@@ -302,6 +302,71 @@ Foam::scalar Foam::ThermoParcel<ParcelType>::calcHeatTransfer
 }
 
 
+template<class ParcelType>
+template<class TrackCloudType>
+Foam::scalar Foam::ThermoParcel<ParcelType>::calcHeatTransfer
+(
+    TrackCloudType& cloud,
+    trackingData& td,
+    const scalar dt,
+    const scalar Re,
+    const scalar Pr,
+    const scalar kappa,
+    const scalar NCpW,
+    const scalar Sh,
+    const scalar mtc,
+    scalar& dhsTrans,
+    scalar& Sph
+)
+{
+    if (!cloud.heatTransfer().active())
+    {
+        return T_;
+    }
+
+    const scalar d = this->d();
+    const scalar rho = this->rho();
+    const scalar As = this->areaS(d);
+    const scalar V = this->volume(d);
+    const scalar m = rho*V;
+
+    // Calc heat transfer coefficient
+    scalar Nu = cloud.heatTransfer().Nu(Re, Pr);
+
+    // Calculate the integration coefficients
+    const scalar bcp = Nu/(3.0*Pr)*mtc;
+    const scalar acp = bcp*td.Tc();
+    scalar ancp = Sh;
+    if (cloud.radiation())
+    {
+        const tetIndices tetIs = this->currentTetIndices();
+        const scalar Gc = td.GInterp().interpolate(this->coordinates(), tetIs);
+        const scalar sigma = physicoChemical::sigma.value();
+        const scalar epsilon = cloud.constProps().epsilon0();
+
+        ancp += As*epsilon*(Gc/4.0 - sigma*pow4(T_));
+    }
+    ancp /= m*Cp_;
+
+    // Integrate to find the new parcel temperature
+    const scalar deltaT = cloud.TIntegrator().delta(T_, dt, acp + ancp, bcp);
+    const scalar deltaTncp = ancp*dt;
+    const scalar deltaTcp = deltaT - deltaTncp;
+
+    // Calculate the new temperature and the enthalpy transfer terms
+    scalar Tnew = T_ + deltaT;
+    Tnew = min(max(Tnew, cloud.constProps().TMin()), cloud.constProps().TMax());
+
+    // This is the total enthalpy source
+    // dhsTrans -= m*Cp_*deltaT - dMassSum*Cp_*T_;
+
+    dhsTrans -= m*Cp_*deltaTcp;
+
+    Sph = dt*m*Cp_*bcp;
+
+    return Tnew;
+}
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class ParcelType>
