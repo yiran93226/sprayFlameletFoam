@@ -25,6 +25,9 @@
     Info<< "varZ min/max : " << min(varZ).value() << ", "
         << max(varZ).value() << endl;
 
+    Info<< "dh min/max : " << min(dh).value() << ", "
+        << max(dh).value() << endl;
+
     Info<< "Yc min/max : " << min(Yc).value() << ", "
         << max(Yc).value() << endl;
 }

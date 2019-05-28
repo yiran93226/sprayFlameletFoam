@@ -33,7 +33,6 @@ Description
 #include "turbulentFluidThermoModel.H"
 #include "basicSprayCloud.H"
 #include "psiReactionThermo.H"
-// #include "CombustionModel.H"
 #include "radiationModel.H"
 #include "SLGThermo.H"
 #include "pimpleControl.H"
@@ -85,6 +84,7 @@ int main(int argc, char *argv[])
             {
                 #include "UEqn.H"
                 #include "ZEqn.H"
+                #include "dhEqn.H"
                 #include "YcEqn.H"
                 #include "lookupTable.H"
 

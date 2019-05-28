@@ -5,6 +5,7 @@
     const scalarField& varZCells = varZ.internalField();
     const scalarField& YcCells = Yc.internalField();
     const scalarField& pCells = p.internalField();
+    const scalarField& dhCells = dh.internalField();
 
     scalarField& heCells = he.primitiveFieldRef();
     scalarField& TCells = T.primitiveFieldRef();
@@ -33,6 +34,7 @@
             heCells[celli] += YCells[celli]*thermo.composition().Hs(i, pCells[celli], TCells[celli]);
             Yt[celli] += Y[i][celli];
         }
+        heCells[celli] += dhCells[celli];
     }
 
     forAll(Z.boundaryField(), patchI)
@@ -41,6 +43,7 @@
         const fvPatchScalarField& pvarZ = varZ.boundaryField()[patchI];
         const fvPatchScalarField& pZ = Z.boundaryField()[patchI];
         const fvPatchScalarField& pp = p.boundaryField()[patchI];
+        const fvPatchScalarField& pdh = dh.boundaryField()[patchI];
 
         fvPatchScalarField& phe = he.boundaryFieldRef()[patchI];
         fvPatchScalarField& pT = T.boundaryFieldRef()[patchI];
@@ -64,6 +67,7 @@
                 phe[facei] += pY[facei]*thermo.composition().Hs(i, pp[facei], pT[facei]);
                 pYt[facei] += pY[facei];
             }
+            phe[facei] += pdh[facei];
         }
     }
     // fvScalarMatrix EEqn
