@@ -84,7 +84,6 @@ int main(int argc, char *argv[])
             {
                 #include "UEqn.H"
                 #include "ZEqn.H"
-                #include "dhEqn.H"
                 #include "YcEqn.H"
                 #include "lookupTable.H"
 

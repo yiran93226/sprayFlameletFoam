@@ -92,19 +92,6 @@ volScalarField omegaYc
     mesh
 );
 
-volScalarField dh
-(
-    IOobject
-    (
-        "dh",
-        runTime.timeName(),
-        mesh,
-        IOobject::READ_IF_PRESENT,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
 Info<< "\nReading field U\n" << endl;
 volVectorField U
 (
