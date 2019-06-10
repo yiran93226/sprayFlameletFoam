@@ -252,6 +252,7 @@ void Foam::LangmuirKnudsen<CloudType>::calculate
 
             // vapor mass fraction at the droplet surface
             scalar Ysneq = Xsneq*liquids_.properties()[lid].W()/Wc;
+            Ysneq = (Ysneq < 0.99999 ? Ysneq : 0.99999);
 
             // vapor mass fraction in bulk gas
             scalar Yv = this->owner().thermo().carrier().Y()[gid][celli];
