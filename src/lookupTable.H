@@ -102,13 +102,13 @@
 
     Info<< "T gas min/max   " << min(T).value() << ", "
         << max(T).value() << endl;
-    Info<< "p min/max : " << min(p).value() << ", "
+    Info<< "p min/max   " << min(p).value() << ", "
         << max(p).value() << endl;
-    Info<< "Y oxidizer min/max : " << min(Y[oxidizerIndex]).value() << ", "
+    Info<< "Y oxidizer min/max   " << min(Y[oxidizerIndex]).value() << ", "
         << max(Y[oxidizerIndex]).value() << endl;
-    Info<< "Sum Y min/max : " << min(Yt).value() << ", "
+    Info<< "Sum Y min/max   " << min(Yt).value() << ", "
         << max(Yt).value() << endl;
-    Info<< "OmegaYc min/max : " << min(omegaYc).value() << ", "
+    Info<< "OmegaYc min/max   " << min(omegaYc).value() << ", "
         << max(omegaYc).value() << endl;
     // flameletTable.find(0.1, 0.0, 0.01);
     // Info<< "Find Z0.1 TEMPERATURE: " << flameletTable.lookupT() << endl;
