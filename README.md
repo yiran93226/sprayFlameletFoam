@@ -9,5 +9,10 @@ cd ~/OpenFOAM/sprayFlameletFoam/
 ./Allwmake
 ```
 
-## Sample
-NOTE: TO BE UPDATED
+## Example -- aachenBomb
+- Flamelet tables can be generated from solutions of the counterflow diffusion flame. And the laminar results are stored in `tables/Zeta_0/`.
+- To account for the effect of turbulence, a presumed beta-PDF integration is then performed. This is done through `tableTest` provided in the `utilities` directory, generating flamelet data at different *Zeta*.
+- With the complete set of tablse, run **sprayFlameletFoam** with
+```bash
+sprayFlameletFoam > log &
+```

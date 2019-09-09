@@ -59,51 +59,10 @@ void tableSolver::find(double Z, double Yc)
     }
     else if (Yc <= Ycs[0])
     {
-        // weightL_ = 0.5;
-        // weightH_ = 0.5;
-        // positionL_ = tableNum_-1;
-        // positionH_ = tableNum_-1;
-        // weightL_ = (Ycs[0] - Yc) / (Ycs[0] - 0);
-        // weightH_ = (Yc - 0) / (Ycs[0] - 0);
-        // positionL_ = tableNum_-1;
-        // positionH_ = tableNum_-2;
-        YcH = Ycs[0];
-        YcL = tables_[tableNum_-1]->lookupYc();
-        positionH_ = YcMap[YcH];
+        weightL_ = (Ycs[0] - Yc) / (Ycs[0] - 0);
+        weightH_ = (Yc - 0) / (Ycs[0] - 0);
         positionL_ = tableNum_-1;
-
-        // T
-        double B = tables_[positionL_]->lookupT() - 1.0;
-        double A = std::log(tables_[positionH_]->lookupT() - B)
-                    / (YcH - YcL);
-        expT_ = std::exp(A*(Yc-YcL)) + B;
-
-        // omegaYc
-        if (tables_[positionH_]->lookupOmegaYc() > 0) {
-            B = tables_[positionL_]->lookupOmegaYc() - 1.0;
-            A = std::log(tables_[positionH_]->lookupOmegaYc() - B)
-                / (YcH - YcL);
-            expOmegaYc_ = std::exp(A*(Yc-YcL)) + B;
-        }
-        else if (tables_[positionH_]->lookupOmegaYc() < 0) {
-            B = tables_[positionL_]->lookupOmegaYc() + 1.0;
-            A = std::log(-tables_[positionH_]->lookupOmegaYc() + B)
-                / (YcH - YcL);
-            expOmegaYc_ = -std::exp(A*(Yc-YcL)) + B;
-        }
-        else {
-            expOmegaYc_ = 0.0;
-        }
-
-        // Y
-        for (size_t i=0; i<nsp_; i++) {
-            B = tables_[positionL_]->lookupY(i) - 1.0;
-            A = std::log(tables_[positionH_]->lookupY(i) - B)
-                / (YcH - YcL);
-            expY_[i] = std::exp(A*(Yc-YcL)) + B;
-        }
-
-        useExp_ = true;
+        positionH_ = tableNum_-2;
     }
     else
     {

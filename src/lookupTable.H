@@ -11,7 +11,6 @@
     scalarField& omegaYcCells = omegaYc.primitiveFieldRef();
 
     scalar Zeta = 0.0;
-    // double y = 0.0;
 
     volScalarField Yt(0.0*Y[0]);
     forAll(ZCells, celli)
@@ -21,10 +20,6 @@
         heCells[celli] = 0.0;
         TCells[celli] = flameletTable.lookupT();
         omegaYcCells[celli] = flameletTable.lookupOmegaYc();
-        // T as a function of y coordinate -- test
-        // y = mesh.C()[celli][1];
-        // tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2*6))
-        //     / (Foam::sqrt(0.005 * Foam::constant::mathematical::pi)*2) + 1);
 
         forAll(Y, i)
         {
@@ -53,10 +48,6 @@
             phe[facei] = 0.0;
             pT[facei] = flameletTable.lookupT();
 
-            // y = pZ.patch().Cf()[facei][1];
-            // tT = 300*(Foam::exp(-(1000*(y-0.01))*(1000*(y-0.01))/(2*6))
-            //     / (Foam::sqrt(0.005 * Foam::constant::mathematical::pi)*2) + 1);
-            
             forAll(Y, i)
             {
                 fvPatchScalarField& pY = Y[i].boundaryFieldRef()[patchI];
@@ -66,36 +57,6 @@
             }
         }
     }
-    // fvScalarMatrix EEqn
-    // (
-    //     fvm::ddt(rho, he) + mvConvection->fvmDiv(phi, he)
-    //   + fvc::ddt(rho, K) + fvc::div(phi, K)
-    //   + (
-    //         he.name() == "e"
-    //       ? fvc::div
-    //         (
-    //             fvc::absolute(phi/fvc::interpolate(rho), U),
-    //             p,
-    //             "div(phiv,p)"
-    //         )
-    //       : -dpdt
-    //     )
-    //   - fvm::laplacian(turbulence->alphaEff(), he)
-    //  ==
-    //     rho*(U&g)
-    //   + parcels.Sh(he)
-    //   + radiation->Sh(thermo, he)
-    //   + Qdot
-    //   + fvOptions(rho, he)
-    // );
-
-    // EEqn.relax();
-
-    // fvOptions.constrain(EEqn);
-
-    // EEqn.solve();
-
-    // fvOptions.correct(he);
 
     thermo.correct();
     // radiation->correct();
@@ -110,7 +71,4 @@
         << max(Yt).value() << endl;
     Info<< "OmegaYc min/max   " << min(omegaYc).value() << ", "
         << max(omegaYc).value() << endl;
-    // flameletTable.find(0.1, 0.0, 0.01);
-    // Info<< "Find Z0.1 TEMPERATURE: " << flameletTable.lookupT() << endl;
-    // Info<< "Find Z0.1 omegaYc: " << flameletTable.lookupOmegaYc() << endl;
 }
