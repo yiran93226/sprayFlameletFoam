@@ -32,35 +32,20 @@ public:
 
     double lookupT() const
     {
-        if (!useExp_) {
-            return tables_[positionH_]->lookupT() * weightH_ +
-                    tables_[positionL_]->lookupT() * weightL_;
-        }
-        else {
-            return expT_;
-        }
+        return tables_[positionH_]->lookupT() * weightH_ +
+               tables_[positionL_]->lookupT() * weightL_;
     }
 
     double lookupOmegaYc() const
     {
-        if (!useExp_) {
-            return tables_[positionH_]->lookupOmegaYc() * weightH_ +
-                    tables_[positionL_]->lookupOmegaYc() * weightL_;
-        }
-        else {
-            return expOmegaYc_;
-        }
+        return tables_[positionH_]->lookupOmegaYc() * weightH_ +
+               tables_[positionL_]->lookupOmegaYc() * weightL_;
     }
 
     double lookupY(size_t i) const
     {
-        if (!useExp_) {
-            return tables_[positionH_]->lookupY(i) * weightH_ +
-                    tables_[positionL_]->lookupY(i) * weightL_;
-        }
-        else {
-            return expY_[i];
-        }
+        return tables_[positionH_]->lookupY(i) * weightH_ +
+               tables_[positionL_]->lookupY(i) * weightL_;
     }
 
 private:
@@ -76,11 +61,6 @@ private:
     size_t nsp_;
     size_t tableNum_;
     std::vector<table*> tables_;
-
-    bool useExp_;
-    double expT_;
-    double expOmegaYc_;
-    std::vector<double> expY_;
 };
 
 #endif

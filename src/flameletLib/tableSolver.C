@@ -2,7 +2,6 @@
 
 tableSolver::tableSolver(size_t zetaIndex)
 {
-    useExp_ = false;
     collectTables(zetaIndex);
 }
 
@@ -20,13 +19,10 @@ void tableSolver::collectTables(size_t zetaIndex)
 
     tableNum_ = tables_.size();
     nsp_ = tables_[0]->getNsp();
-    expY_.resize(nsp_,0.0);
 }
 
 void tableSolver::find(double Z, double Yc)
 {
-    useExp_ = false;
-
     std::vector<double> Ycs(tableNum_-1);
     std::map<double, size_t> YcMap;
     for (size_t i=0; i<tableNum_; i++)
