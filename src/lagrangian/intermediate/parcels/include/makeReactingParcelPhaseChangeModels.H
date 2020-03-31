@@ -32,6 +32,7 @@ License
 #include "LiquidEvaporation.H"
 #include "LiquidEvaporationBoil.H"
 #include "LangmuirKnudsen.H"
+#include "AbramzonSirignano.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -41,8 +42,8 @@ License
     makePhaseChangeModelType(NoPhaseChange, CloudType);                        \
     makePhaseChangeModelType(LiquidEvaporation, CloudType);                    \
     makePhaseChangeModelType(LiquidEvaporationBoil, CloudType);                \
-    makePhaseChangeModelType(LangmuirKnudsen, CloudType);
-
+    makePhaseChangeModelType(LangmuirKnudsen, CloudType);                      \
+    makePhaseChangeModelType(AbramzonSirignano, CloudType);
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
