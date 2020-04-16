@@ -199,7 +199,8 @@ protected:
             scalar& N,                 // flux of species emitted from parcel
             scalar& NCpW,              // sum of N*Cp*W of emission species
             scalarField& Cs,           // carrier conc. of emission species
-            scalar& mtc
+            scalar& mtc,
+            scalar& Ql                 // rate of heat transfer within the liquid droplet
         );
 
         //- Update mass fraction
