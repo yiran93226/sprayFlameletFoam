@@ -55,7 +55,8 @@ void Foam::ReactingParcel<ParcelType>::calcPhaseChange
     scalar& N,
     scalar& NCpW,
     scalarField& Cs,
-    scalar& mtc
+    scalar& mtc,
+    scalar& Ql
 )
 {
     typedef typename TrackCloudType::reactingCloudType reactingCloudType;
@@ -99,7 +100,8 @@ void Foam::ReactingParcel<ParcelType>::calcPhaseChange
         X,
         mass,
         dMassPC,
-        mtc
+        mtc,
+        Ql
     );
 
     // Limit phase change mass by availability of each specie
@@ -452,6 +454,9 @@ void Foam::ReactingParcel<ParcelType>::calc
     // evaporation parameter
     scalar mtc = 0.0;
 
+    // heat transfer rate within the liquid droplet [J/s]
+    scalar Ql = 0.0;
+
     // Calc mass and enthalpy transfer due to phase change
     calcPhaseChange
     (
@@ -473,7 +478,8 @@ void Foam::ReactingParcel<ParcelType>::calc
         Ne,
         NCpW,
         Cs,
-        mtc
+        mtc,
+        Ql
     );
 
 
@@ -534,7 +540,9 @@ void Foam::ReactingParcel<ParcelType>::calc
     // ~~~~~~~~~~~~~
 
     // Calculate new particle temperature
-    this->T_ =
+    if (Ql == 0)
+    {
+        this->T_ =
         this->calcHeatTransfer
         (
             cloud,
@@ -549,6 +557,49 @@ void Foam::ReactingParcel<ParcelType>::calc
             dhsTrans,
             Sph
         );
+    }
+    else
+    {
+        // A-S model, use finite thermal conductivity model to calculate Td
+        // Ql = keff/delta_thermal * As * (Td - Ts)
+        Ts = this->calcHeatTransfer
+        (
+            cloud,
+            td,
+            dt,
+            Res,
+            Prs,
+            kappas,
+            NCpW,
+            Sh,
+            mtc,
+            dhsTrans,
+            Sph
+        );
+        // chi is the coefficient in thermal conductivity
+        
+        scalar mu_L = 0.0;
+        scalar alphah_L = 0.0; // kappa/Cp    
+        
+        scalar kappaEff = 0.0;
+        forAll(dMassPC, i)
+        { 
+            kappaEff += composition.liquids().properties()[i].kappa(td.pc(), T0);
+            mu_L += composition.liquids().properties()[i].mu(td.pc(), T0);
+            alphah_L += composition.liquids().properties()[i].alphah(td.pc(), T0);
+        }     
+        
+        // how to determine Us in Re_L?
+        scalar Re_L = this->rho_*mag(U0)*this->d_ / mu_L;
+        scalar Pr_L = mu_L / alphah_L;
+        scalar Pe_L = Re_L*Pr_L;
+        scalar chi = 1.86 + 0.86*tanh( 2.225*log10(Pe_L/30) );
+        kappaEff *= chi;
+
+        //判断是否Ql<0
+        scalar delta_thermal = (this->d_/2) / 2.257 * sqrt(chi);
+        this->T_ = Ts - abs(Ql) * delta_thermal / (kappaEff * pi*sqr(this->d_));     
+    }    
 
     this->Cp_ = composition.Cp(0, Y_, td.pc(), T0);
 
