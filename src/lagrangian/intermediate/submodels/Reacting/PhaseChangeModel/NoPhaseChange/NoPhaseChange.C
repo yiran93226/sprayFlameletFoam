@@ -80,7 +80,8 @@ void Foam::NoPhaseChange<CloudType>::calculate
     const scalarField& X,
     const scalar mass,
     scalarField& dMassPC,
-    scalar& mtc
+    scalar& mtc,
+    scalar& Ql
 ) const
 {
     // Nothing to do...

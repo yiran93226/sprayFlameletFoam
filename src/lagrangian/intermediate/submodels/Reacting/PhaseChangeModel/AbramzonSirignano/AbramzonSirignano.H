@@ -120,7 +120,8 @@ public:
             const scalarField& X,
             const scalar mass,
             scalarField& dMassPC,
-            scalar& mtc
+            scalar& mtc,
+            scalar& Ql
         ) const;
 
         //- Return the enthalpy per unit mass

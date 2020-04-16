@@ -144,7 +144,8 @@ void Foam::LiquidEvaporation<CloudType>::calculate
     const scalarField& X,
     const scalar mass,
     scalarField& dMassPC,
-    scalar& mtc
+    scalar& mtc,
+    scalar& Ql
 ) const
 {
     // immediately evaporate mass that has reached critical condition

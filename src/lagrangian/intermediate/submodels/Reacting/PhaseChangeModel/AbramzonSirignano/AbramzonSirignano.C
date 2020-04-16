@@ -144,7 +144,8 @@ void Foam::AbramzonSirignano<CloudType>::calculate
     const scalarField& X,
     const scalar mass,
     scalarField& dMassPC,
-    scalar& mtc
+    scalar& mtc,
+    scalar& Ql
 ) const
 {
     // immediately evaporate mass that has reached critical condition
@@ -277,6 +278,7 @@ void Foam::AbramzonSirignano<CloudType>::calculate
             scalar FT = Foam::pow(1 + BT, 0.7) / BT * Foam::log(1 + BT);
             NuModify = 2 + (Nu - 2) / FT;
 
+            //???????????????????????????
             scalar phi = (Cpd / Cpc * ShModify / NuModify) / Le;
 
             scalar BT_new = Foam::pow(1 + BM, phi) - 1;
@@ -294,6 +296,9 @@ void Foam::AbramzonSirignano<CloudType>::calculate
         dMassPC[lid] = ShModify / (3.0 * Sc) * (md / taud) * log(1.0 + BM) * dt;
         scalar mdot =  dMassPC[lid] / dt;
         mtc += mdot/(md*BT) * (Cpc / Cpd);
+
+        // rate of heat transfer within the liquid droplet [J/s]
+        Ql += mdot*( Cpc*(Tc - Ts)/BT - liquids_.properties()[lid].hl(pc, Ts));
     }   
 }
 
