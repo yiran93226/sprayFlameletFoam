@@ -561,7 +561,7 @@ void Foam::ReactingParcel<ParcelType>::calc
     else
     {
         // A-S model, use finite thermal conductivity model to calculate Td
-        // Ql = keff/delta_thermal * As * (Td - Ts)
+        // Ql = keff/delta_thermal * As * (Ts - Td)
         Ts = this->calcHeatTransfer
         (
             cloud,
@@ -584,9 +584,9 @@ void Foam::ReactingParcel<ParcelType>::calc
         scalar kappaEff = 0.0;
         forAll(dMassPC, i)
         { 
-            kappaEff += composition.liquids().properties()[i].kappa(td.pc(), T0);
-            mu_L += composition.liquids().properties()[i].mu(td.pc(), T0);
-            alphah_L += composition.liquids().properties()[i].alphah(td.pc(), T0);
+            kappaEff += composition.liquids().properties()[i].kappa(td.pc(), Ts);
+            mu_L += composition.liquids().properties()[i].mu(td.pc(), Ts);
+            alphah_L += composition.liquids().properties()[i].alphah(td.pc(), Ts);
         }     
         
         // how to determine Us in Re_L?
@@ -596,7 +596,7 @@ void Foam::ReactingParcel<ParcelType>::calc
         scalar chi = 1.86 + 0.86*tanh( 2.225*log10(Pe_L/30) );
         kappaEff *= chi;
 
-        //判断是否Ql<0
+        //Ql should be large than 0
         scalar delta_thermal = (this->d_/2) / 2.257 * sqrt(chi);
         this->T_ = Ts - abs(Ql) * delta_thermal / (kappaEff * pi*sqr(this->d_));     
     }    
